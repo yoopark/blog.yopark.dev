@@ -10,6 +10,14 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: 'blog.yopark.dev',
   description: '프론트엔드 개발자를 꿈꾸는 박용준의 개발 블로그입니다 🙇‍♂️',
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    title: 'blog.yopark.dev',
+    description: '프론트엔드 개발자를 꿈꾸는 박용준의 개발 블로그입니다 🙇‍♂️',
+    url: 'https://blog.yopark.dev',
+    images: 'https://blog.yopark.dev/images/og-image.jpeg',
+  },
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => {
