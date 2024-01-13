@@ -1,0 +1,718 @@
+---
+title: react.dev 튜토리얼 메모 useEffect 파트
+date: 2023-09-20
+description: useEffect가 특히 중요하여 별도로 제작합니다 😊
+thumbnail: /images/posts/react-dev-tutorial-use-effect/intro.png
+tags:
+  - React
+---
+
+💡 useEffect는 사례로 배우는 것이 중요하기 때문에, 공식문서 정리 뒤에 Overreacted 글 내용을 추가하였습니다.
+
+- [React, Effect로 동기화하기](https://ko.react.dev/learn/synchronizing-with-effects) ~ [Effect의 의존성 제거하기](https://ko.react.dev/learn/removing-effect-dependencies)
+- [Overreacted, useEffect 완벽 가이드](https://overreacted.io/ko/a-complete-guide-to-useeffect/)
+
+# Effect로 동기화하기
+
+## 컴포넌트의 3가지 로직 유형
+
+| 유형                                   | 순수 함수 | 트리거        |
+| -------------------------------------- | --------- | ------------- |
+| 렌더링 코드 (props, state, return JSX) | O         | 렌더링        |
+| 이벤트 핸들러                          | X         | 사용자의 행위 |
+| Effect                                 | X         | 렌더링        |
+
+순수 함수의 조건
+
+1. 같은 입력이 주어졌다면, 같은 결과를 반환한다. (외부 변수를 사용하면 안 된다)
+2. 함수가 호출되기 전에 존재했던 객체나 변수를 변경하지 않는다. (외부 변수를 변경하면 안 된다)
+
+![why does react care about purity](/images/posts/react-dev-tutorial-use-effect/why-does-react-care-about-purity-capture.png)
+
+즉, 외부의 상태를 변경해야 하기 때문에 순수하진 않지만, 사용자의 행위로 트리거되는 것이 아니라 그저 렌더링되기 때문에 트리거되어야 하는 행위를 **Effect**라고 한다. 프로그래밍 개념 Side effect (부수 효과)를 React에서는 Effect라고 부른다.
+
+렌더링과 Effect를 확실히 분리하기 위하여 `useEffect`가 고안되었으며, **렌더링이 완료된 이후** 별도로 실행된다.
+
+## Side effect의 예시
+
+- 함수 외부의 전역 변수 변경
+- AJAX
+  - BE API에 네트워크 요청
+- Web API 사용
+  - 파일, web storage, 쿠키에 접근
+  - document, window 객체에 접근
+  - setTimeout, setInterval
+  - 엄밀히 말하면, console.log도 외부 콘솔 상태를 알 수 없으므로 side effect다.
+
+ex. 채팅 서버에 접속
+
+```tsx
+export default function ChatRoom() {
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    return () => connection.disconnect();
+  }, []);
+  return <h1>채팅에 오신걸 환영합니다!</h1>;
+}
+```
+
+ex. DOM 노드 조작
+
+useRef를 이용하여 DOM 노드를 조작하는 행위는 순수하지 않을 뿐더러 렌더링 중에 실행하면 `null`이라서 에러가 난다. 반면, useEffect는 렌더링이 끝난 이후 실행되기 때문에 ref에 DOM 노드가 바인딩되었다고 가정할 수 있다.
+
+```tsx
+function VideoPlayer({ src, isPlaying }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (isPlaying) {
+      console.log('video.play() 호출');
+      ref.current.play();
+    } else {
+      console.log('video.pause() 호출');
+      ref.current.pause();
+    }
+  }, [isPlaying]);
+
+  return <video ref={ref} src={src} loop playsInline />;
+}
+
+export default function App() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [text, setText] = useState('');
+  return (
+    <>
+      <input value={text} onChange={(e) => setText(e.target.value)} />
+      <button onClick={() => setIsPlaying(!isPlaying)}>
+        {isPlaying ? '일시 정지' : '재생'}
+      </button>
+      <VideoPlayer
+        isPlaying={isPlaying}
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      />
+    </>
+  );
+}
+```
+
+> Effect가 필요 없을지도 모릅니다. **컴포넌트에 Effect를 무작정 추가하지 마세요.** Effect는 주로 React 코드를 벗어난 특정 _외부_ 시스템과 동기화하기 위해 사용됩니다. 이는 브라우저 API, 써드파티 위젯, 네트워크 등을 포함합니다. 만약 당신의 Effect가 단순히 다른 상태에 기반하여 일부 상태를 조정하는 경우에는 [Effect가 필요하지 않을 수 있습니다.](https://ko.react.dev/learn/you-might-not-need-an-effect)
+
+이벤트 핸들러와 useEffect 모두 순수하지 않기 때문에, 이 둘을 혼동하여 **이벤트 핸들러에서 상태 변경 → 해당 상태를 의존성 배열에 담은 useEffect에서 나머지 단계 실행**하는 로직을 종종 짜는 걸 볼 수 있는데, 이는 명백한 안티패턴이다. 설령 여러 이벤트 핸들러에서 겹치는 로직이 있다 하더라도, 각 이벤트 핸들러에서 모두 호출해주는 것이 옳다.
+
+[Effect가 필요하지 않을 수도 있습니다 – React](https://ko.react.dev/learn/you-might-not-need-an-effect#sharing-logic-between-event-handlers)
+
+## 안정된 식별성(stable identity)
+
+**안정된 식별성**이란 항상 같은 객체를 얻을 수 있음을 보장한다는 뜻이며, 안정된 식별성을 갖는 경우 의존성 배열에 포함하지 않아도 된다.
+
+ex. useRef의 반환값(ref), useState의 setter, useReducer의 dispatch
+
+하지만, **부모로부터 prop으로 전달받은 ref의 경우 타입은 같지만 다른 객체가 들어올 가능성도 있기 때문에** 만약 해당 ref를 useEffect 내에서 사용하는 경우에는 ref도 의존성 배열에 넣어야 한다.
+
+## Effect가 두 번 실행되는 경우
+
+React.StrictMode에서 **mount → unmount → mount** 하는 방식으로 컴포넌트의 순수성을 파악하기 때문이며, “**Effect를 한 번 실행하는 방법”이 아니라 “어떻게 Effect가 다시 마운트된 후에도 작동하도록 고칠 것인가”라는 것이 옳은 질문이다.**
+
+> 당연한 얘기겠지만, cleanup 함수는 컴포넌트 언마운트 시에만 실행되는 게 아니라 **의존성 배열 값이 수정되어 다시 Effect 함수를 실행해야 하는 상황이 오면, 그 전에도 cleanup 함수가 호출됩니다.**
+>
+> useEffect를 클래스 컴포넌트의 라이프사이클에 대응해서 보는 짓을 그만두세요! 이제는 Effect 기준으로 생각해야 합니다. useEffect는 마운트 시에**도** 실행되고, cleanup 함수는 언마운트 시에**도** 실행될 뿐입니다.
+
+ex. 두 번 마운트되어도 같은 set을 두 번 하는 거라 문제 없다.
+
+```tsx
+useEffect(() => {
+  const map = mapRef.current;
+  map.setZoomLevel(zoomLevel);
+}, [zoomLevel]);
+```
+
+ex. 두 번 마운트되면 다이얼로그가 두 개 뜬다.
+
+```tsx
+useEffect(() => {
+  const dialog = dialogRef.current;
+  dialog.showModal();
+
+  // return () => dialog.close();
+}, []);
+```
+
+ex. 두 번 마운트되면 이벤트 리스너가 두 개 붙는다.
+
+```tsx
+useEffect(() => {
+  function handleScroll(e) {
+    console.log(window.scrollX, window.scrollY);
+  }
+  window.addEventListener('scroll', handleScroll);
+
+  // return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+```
+
+ex. 언마운트될 때 애니메이션이 되돌아가지 않는다.
+
+```tsx
+useEffect(() => {
+  const node = ref.current;
+  node.style.opacity = 1; // Trigger the animation
+
+  // return () => {
+  //   node.style.opacity = 0; // Reset to the initial value
+  // };
+}, []);
+```
+
+ex. 두 번 마운트되면 방문 로그가 두 번 보내진다.
+
+```tsx
+useEffect(() => {
+  logVisit(url); // POST 요청을 보냄
+}, [url]);
+```
+
+**우리는 이 코드를 그대로 유지하는 것을 권장합니다.** ① 개발 환경에서는 `logVisit`가 아무 작업도 수행하지 않아야 합니다. 왜냐하면 개발 환경의 로그가 제품 지표를 왜곡시키지 않도록 하기 위함입니다. **② 제품 환경에서는 중복된 방문 로그가 없을 것입니다.**
+
+보내는 분석 이벤트를 디버깅하려면 앱을 스테이징 환경(제품 모드로 실행)에 배포하거나 [Strict Mode](https://ko.react.dev/reference/react/StrictMode)를 일시적으로 사용 중지하여 개발 환경 전용의 재마운팅 검사를 수행할 수 있습니다. 또한 Effect 대신 라우트 변경 이벤트 핸들러에서 분석을 보낼 수도 있습니다. 더 정밀한 분석을 위해 [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)를 사용하여 어떤 컴포넌트가 뷰포트에 있는지와 얼마나 오래 보이는지 추적하는 데 도움이 될 수 있습니다.
+
+ex. 컴포넌트 렌더링이 아니라 애플리케이션 시작 시 한 번만 실행되어야 하는 경우
+
+Case 1. 앱 로드 이후
+
+```tsx
+let didInit = false;
+
+function App() {
+  useEffect(() => {
+    if (!didInit) {
+      didInit = true;
+      // ✅ 앱 로드당 한 번만 실행
+      loadDataFromLocalStorage();
+      checkAuthToken();
+    }
+  }, []);
+  // ...
+}
+```
+
+Case 2. 앱 렌더링 이전
+
+```tsx
+if (typeof window !== 'undefined') {
+  // 브라우저에서 실행 중인지 확인합니다.
+  checkAuthToken();
+  loadDataFromLocalStorage();
+}
+
+function App() {
+  // ...
+}
+```
+
+## useEffect 내에서의 fetch 경쟁 상태
+
+[Effect로 동기화하기 - 챌린지 4번 링크](https://ko.react.dev/learn/synchronizing-with-effects#fix-fetching-inside-an-effect)
+
+```tsx
+import { useState, useEffect } from 'react';
+import { fetchBio } from './api.js';
+
+export default function Page() {
+  const [person, setPerson] = useState('Alice');
+  const [bio, setBio] = useState(null);
+
+  useEffect(() => {
+    setBio(null);
+    fetchBio(person).then((result) => {
+      setBio(result);
+    });
+  }, [person]);
+
+  return (
+    <>
+      <select
+        value={person}
+        onChange={(e) => {
+          setPerson(e.target.value);
+        }}
+      >
+        <option value="Alice">Alice</option>
+        <option value="Bob">Bob</option>
+        <option value="Taylor">Taylor</option>
+      </select>
+      <hr />
+      <p>
+        <i>{bio ?? 'Loading...'}</i>
+      </p>
+    </>
+  );
+}
+```
+
+Bob에 대한 요청은 오래 걸리고, Taylor에 대한 요청은 빠르다고 가정해보자.
+
+Bob을 선택했다가 로딩이 끝나기 전에 Taylor로 바꾼다면, Taylor 정보로 `setBio`가 이루어진 뒤, Bob 정보가 도착하면 Bob 정보로 덮어씌워지는 버그가 발생한다.
+
+이를 경쟁 상태라고 하며, **각각의 렌더링은 각각의 고유한 Effect(다른 Effect와 구별되는 클로저)를 가지기 때문에** Bob의 프로미스가 여전히 실행되는 것이다.
+
+이를 해결하기 위해서는 cleanup 함수에서 프로미스가 돌아와도 결과를 반영하지 않도록 `ignore` 플래그를 별도로 두어야 한다.
+
+```tsx
+useEffect(() => {
+  let ignore = false;
+  setBio(null);
+  fetchBio(person).then((result) => {
+    if (!ignore) {
+      setBio(result);
+    }
+  });
+
+  return () => {
+    ignore = true;
+  };
+}, [person]);
+```
+
+보충 설명. 클래스 컴포넌트 시절과의 동작 차이
+
+[useEffect 완벽 가이드](https://overreacted.io/ko/a-complete-guide-to-useeffect/#모든-랜더링은-고유의-모든-것을-가지고-있다)
+
+다음과 같이 hook을 만드는 방법도 있다.
+
+```tsx
+function SearchResults({ query }) {
+  const [page, setPage] = useState(1);
+  const params = new URLSearchParams({ query, page });
+  const results = useData(`/api/search?${params}`);
+
+  function handleNextPageClick() {
+    setPage(page + 1);
+  }
+  // ...
+}
+
+function useData(url) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    let ignore = false;
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        if (!ignore) {
+          setData(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [url]);
+  return data;
+}
+```
+
+![Resolve fetch in useEffect 캡처 1](/images/posts/react-dev-tutorial-use-effect/resolve-fetch-in-use-effect-1.png)
+
+![Resolve fetch in useEffect 캡처 2](/images/posts/react-dev-tutorial-use-effect/resolve-fetch-in-use-effect-2.png)
+
+# Effect가 필요하지 않은 경우
+
+ex. 파생 상태
+
+```tsx
+function Form() {
+  const [firstName, setFirstName] = useState('Taylor');
+  const [lastName, setLastName] = useState('Swift');
+
+  // 🔴 피하세요: 중복된 state 및 불필요한 Effect
+  const [fullName, setFullName] = useState('');
+  useEffect(() => {
+    setFullName(firstName + ' ' + lastName);
+  }, [firstName, lastName]);
+
+  // ✅ 좋습니다: 렌더링 중에 계산됨
+  const fullName = firstName + ' ' + lastName;
+  // ...
+}
+```
+
+ex. filtered list
+
+```tsx
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+
+  // 🔴 피하세요: 중복된 state 및 불필요한 효과
+  const [visibleTodos, setVisibleTodos] = useState([]);
+  useEffect(() => {
+    setVisibleTodos(getFilteredTodos(todos, filter));
+  }, [todos, filter]);
+
+  // ✅ getFilteredTodos()가 느리지 않다면 괜찮습니다.
+  console.time('filter array');
+  const visibleTodos = getFilteredTodos(todos, filter);
+  console.timeEnd('filter array');
+
+  // ✅ getFilteredTodos()가 비싸다면 useMemo를 사용합니다.
+  const visibleTodos = useMemo(
+    () => getFilteredTodos(todos, filter),
+    [todos, filter]
+  );
+  // ...
+}
+```
+
+ex. prop이 변경될 때 모든 state 초기화
+
+```tsx
+export default function ProfilePage({ userId }) {
+  // ✅ Profile의 모든 state는 key 변경 시 자동으로 재설정됩니다.
+  return <Profile userId={userId} key={userId} />;
+}
+
+function Profile({ userId }) {
+  const [comment, setComment] = useState('');
+
+  // 🔴 피하세요: Effect에서 prop 변경 시 state 초기화
+  useEffect(() => {
+    setComment('');
+  }, [userId]);
+  // ...
+}
+```
+
+ex. prop이 변경될 때 일부 state 조정하기
+
+```tsx
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selection, setSelection] = useState(null);
+
+  // 🔴 피하세요: Effect에서 prop 변경 시 state 조정하기
+  useEffect(() => {
+    setSelection(null);
+  }, [items]);
+
+  // 더 좋습니다: 렌더링 중 state 조정
+  const [prevItems, setPrevItems] = useState(items);
+  if (items !== prevItems) {
+    setPrevItems(items);
+    setSelection(null);
+  }
+
+  const [selectedId, setSelectedId] = useState(null);
+  // ✅ 최고예요: 렌더링 중에 모든 것을 계산
+  const selection = items.find((item) => item.id === selectedId) ?? null;
+  // ...
+}
+```
+
+[이전 렌더링의 정보를 저장하는 것](https://ko.react.dev/reference/react/useState#storing-information-from-previous-renders)은 이해하기 어려울 수 있지만 Effect에서 동일한 state를 업데이트하는 것보다 낫습니다. 위 예시에서는 렌더링 도중 `setSelection`이 직접 호출됩니다. React는 `return` 문으로 종료된 후 _즉시_ `List`를 다시 렌더링 합니다. React는 아직 `List` 자식을 렌더링 하거나 DOM을 업데이트하지 않았기 때문에 오래된 `selection` 값의 렌더링을 건너뛸 수 있습니다.
+
+**이 패턴이 Effect보다 더 효율적이지만 대부분의 컴포넌트에는 이 패턴이 필요하지 않습니다.** 어떻게 하든 props나 다른 state에 따라 state를 조정하면 데이터 흐름을 이해하고 디버깅하기가 더 어려워집니다.
+
+- useSyncExternalStore 알아보기
+
+# Effect에서 이벤트 분리하기
+
+`useEffectEvent`가 React의 안정적인 기능이 되면 **린터를 절대로 억제**(`eslint-disable-next-line react-hooks/exhaustive-deps`)**하지 않을 것**을 추천합니다.
+
+→ 현재는 비반응형 로직이 있는 경우 **불필요한 의존성을 제거(아래 장에서 소개)하는 다양한 방법을 궁리**해보고, 다 안 된다면 불가피하지만 린터 억제를 사용해야 한다.
+
+ex. chatRoom connect
+
+```tsx
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId, theme }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      showNotification('연결됨!', theme);
+    });
+    connection.connect();
+    return () => connection.disconnect();
+    // theme 변경 시에는 reconnect 하고 싶지 않아도 의존성 배열 규칙에 따라 theme을 넣어야 한다는 문제.
+  }, [roomId, theme]);
+
+  return <h1>{roomId} 방에 오신 것을 환영합니다!</h1>;
+}
+```
+
+useEffectEvent를 만약 사용한다면, 다음과 같이 theme 로직을 분리할 수 있다.
+
+```tsx
+function ChatRoom({ roomId, theme }) {
+  const onConnected = useEffectEvent(() => {
+    showNotification('연결됨!', theme);
+  });
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      onConnected();
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+
+  return <h1>{roomId} 방에 오신 것을 환영합니다!</h1>;
+}
+```
+
+⚠️ 차라리 실험적 기능인 useEffectEvent를 쓰고, 린터 억제(`eslint-disable-next-line react-hooks/exhaustive-deps`)는 절대 사용하지 말자.
+
+# Effect의 의존성 제거하기
+
+하지만 useEffectEvent로 빼기 전 다음의 경우가 아닌지 고려해보자.
+
+ex. prop이 상수인 경우, 컴포넌트 바깥으로 빼기
+
+```tsx
+function ChatRoom({ roomId }) {
+  // ...
+  const options = {
+    serverUrl: serverUrl,
+    roomId: roomId
+  };
+
+	useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [options]); // ✅ All dependencies declared
+    // ...
+```
+
+```tsx
+const options = {
+  serverUrl: 'https://localhost:1234',
+  roomId: 'music'
+};
+
+function ChatRoom() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // ✅ All dependencies declared
+  // ...
+```
+
+```tsx
+**function createOptions() {**
+  return {
+    serverUrl: 'https://localhost:1234',
+    roomId: 'music'
+  };
+}
+
+function ChatRoom() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const options = createOptions();
+    const connection = createConnection();
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // ✅ All dependencies declared
+  // ...
+```
+
+**의존성을 제거하려면 의존성이 아님을 증명해야 한다.**
+
+정말 props가 아니라 상수라면, 컴포넌트 바깥으로 빼거나 custom hook으로 만들자.
+
+역으로 useEffect 내로 변수/함수를 옮기는 방식을 이용하여 의존성이 아님을 증명할 수도 있다.
+
+```tsx
+function SearchResults() {
+  const [query, setQuery] = useState('react');
+
+  useEffect(() => {
+    **function getFetchUrl() {**
+      return 'https://hn.algolia.com/api/v1/search?query=' + query;
+    }
+
+    async function fetchData() {
+      const result = await axios(getFetchUrl());
+      setData(result.data);
+    }
+
+    fetchData();
+  }, [query]); // ✅ Deps는 OK
+  // ...
+}
+```
+
+ex. 이벤트 핸들러에 있어야 하는 로직을 Effect로 쓰지 마라
+
+```tsx
+function Form() {
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (submitted) {
+      // 🔴 Avoid: Event-specific logic inside an Effect
+      post('/api/register');
+      showNotification('Successfully registered!');
+    }
+  }, [submitted]);
+
+  function handleSubmit() {
+    setSubmitted(true);
+  }
+
+  // ...
+}
+```
+
+```tsx
+function Form() {
+  const theme = useContext(ThemeContext);
+
+  **function handleSubmit() {**
+    // ✅ Good: Event-specific logic is called from event handlers
+    post('/api/register');
+    showNotification('Successfully registered!', theme);
+  }
+
+  // ...
+}
+```
+
+ex. 분리되어야 하는 Effect 2개를 합치지 마라
+
+```tsx
+function ShippingForm({ country }) {
+  const [cities, setCities] = useState(null);
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/cities?country=${country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setCities(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [country]); // ✅ All dependencies declared
+
+  const [city, setCity] = useState(null);
+  const [areas, setAreas] = useState(null);
+  useEffect(() => {
+    if (city) {
+      let ignore = false;
+      fetch(`/api/areas?city=${city}`)
+        .then(response => response.json())
+        .then(json => {
+          if (!ignore) {
+            setAreas(json);
+          }
+        });
+      return () => {
+        ignore = true;
+      };
+    }
+  }, [city]); // ✅ All dependencies declared
+
+  // ...
+```
+
+ex. setter를 함수형으로 만들어라.
+
+```tsx
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages([...messages, receivedMessage]);
+    });
+    return () => connection.disconnect();
+  }, [roomId, messages]); // ✅ All dependencies declared
+  // ...
+```
+
+`messages`를 의존성으로 만들면 문제가 발생합니다.
+
+메시지를 수신할 때마다 `setMessages()`는 컴포넌트가 수신된 메시지를 포함하는 새 `messages` 배열로 재렌더링하도록 합니다. 하지만 이 Effect는 이제 `messages`에 따라 달라지므로 Effect도 다시 동기화됩니다. 따라서 새 메시지가 올 때마다 채팅이 다시 연결됩니다. 사용자가 원하지 않을 것입니다!
+
+```tsx
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      **setMessages(msgs => [...msgs, receivedMessage]);**
+    });
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+```
+
+# Overreacted 보충
+
+> Overreacted 아티클은 2019년에 쓰여졌으며, 여기서 등장한 사례들은 대부분 React 공식문서에서도 (더 가독성 좋게) 소개하고 있습니다. 이번 단락에서는 React 공식문서에서 소개하지 않은 사례 위주로 소개합니다.
+
+## useReducer로 의존성 없애기
+
+```tsx
+function Counter() {
+  const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount((c) => c + step);
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [step]);
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <input value={step} onChange={(e) => setStep(Number(e.target.value))} />
+    </>
+  );
+}
+```
+
+만약 `step`이 바뀌더라도 인터벌 시계가 초기화되지 않도록 만들고 싶다면?
+
+```tsx
+function Counter({ step }) {
+  const [count, dispatch] = useReducer(reducer, 0);
+
+  function reducer(state, action) {
+    if (action.type === 'tick') {
+      return state + step;
+    } else {
+      throw new Error();
+    }
+  }
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      dispatch({ type: 'tick' });
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, []);
+
+  return <h1>{count}</h1>;
+}
+```
+
+놀랍게도 reducer 함수를 컴포넌트 안에서 정의하면 가능하다.
+
+reducer 함수는 컴포넌트 바깥에 쓰는 것이 관례이나, 컴포넌트 안으로 넣고 prop을 읽도록 한다면 매번 `step` prop이 바뀔 때마다 reducer가 재정의되기 때문에 dispatch가 안정된 식별성을 가진다고 보장할 수 있다.
+
+Q. reducer 함수를 안에서 만들어도 되나? useCallback을 쓰면 괜찮을 것 같기도.

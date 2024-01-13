@@ -1,0 +1,180 @@
+---
+title: 오버레이 컴포넌트 분류
+date: 2023-09-24
+description: Modal, Dialog, Tooltip, Popover... 이름은 들어봤지만 여전히 헷갈린다면?
+thumbnail: /images/posts/overlay-components/thumbnail.png
+tags:
+  - UI/UX
+---
+
+# 모달이란
+
+The component renders its `children` node in front of a backdrop component.
+
+The `Modal` offers important features:
+
+- 💄 Manages modal stacking when one-at-a-time just isn't enough.
+- 🔐 Creates a backdrop, for disabling interaction below the modal.
+- 🔐 It disables scrolling of the page content while open.
+- ♿️ It properly manages focus; moving to the modal content, and keeping it there until the modal is closed.
+- ♿️ Adds the appropriate ARIA roles automatically.
+
+> The term "modal" is sometimes used to mean "dialog", but this is a misnomer. A modal window describes parts of a UI. An element is considered modal if [it blocks interaction with the rest of the application](https://en.wikipedia.org/wiki/Modal_window).
+
+그러니 모달 대신 다이얼로그라는 용어를 사용하도록 하자.
+
+Ref. [React Modal component - Material UI](https://mui.com/material-ui/react-modal/)
+
+## "모달" 이름의 유래... (정답은 아님)
+
+- 사용자의 허락(Modal - can)이 필요하다.
+- 새로운 뷰 → 새로운 상태 → 새로운 모드
+
+Ref. [[프로그래밍] 모달과 모달리스는 무엇이고 어떤 차이가 있을까?](https://string.tistory.com/47)
+
+# 모달과 논모달
+
+![모달과 논모달 분류](/images/posts/overlay-components/modal-nonmodal.png)
+
+위 이미지는 닐슨 노먼 그룹의 오버레이 컴포넌트 분류다.
+
+- Modal, Nonmodal : 기존 페이지를 움직일 수 있는가
+- Lightbox, Nonlightbox : 배경이 어둡게 처리되었는가
+
+# 오버레이 컴포넌트 소개
+
+![오버레이 컴포넌트 분류](/images/posts/overlay-components/overlay-components.png)
+
+위 이미지는 Google Material Design의 오버레이 컴포넌트 분류다.
+
+- Dialog : 모달
+- Drawer (주로 왼쪽) : 모달 or 논모달
+- Sheet (주로 아래) : 모달 or 논모달
+- Snackbar : 논모달
+- FAB (Floating Action Button) : 논모달 (아이콘만 있으면 FAB, 글까지 있으면 Extended FAB)
+- Banner : 논모달
+- Menu : 논모달 (shadcn/ui에서는 Dropdown Menu. 우클릭으로 열리면 Context Menu)
+- Tooltip, Popover : 논모달 (Tooltip은 호버 시, Popover는 클릭 시 내용 공개)
+- Select, Combobox : 논모달 (별도 유저 input이 가능하면 Combobox, MUI에서는 Autocomplete라고 부름)
+
+Dialog & Full-Screen Dialog
+
+![Dialog & full-screen dialog example](/images/posts/overlay-components/full-screen-dialog.png)
+
+Drawer
+
+![Drawer example](/images/posts/overlay-components/drawer-example.png)
+
+Sheet
+
+![Sheet example](/images/posts/overlay-components/sheet-example.png)
+
+Snackbar
+
+![Snackbar example](/images/posts/overlay-components/snackbar-example.png)
+
+Extended FAB
+
+![Extended FAB example](/images/posts/overlay-components/extended-fab-example.png)
+
+Tooltip
+
+![Tooltip example](/images/posts/overlay-components/tooltip-example.png)
+
+Menu
+
+![Menu example](/images/posts/overlay-components/menu-example.png)
+
+Select
+
+![Select example](/images/posts/overlay-components/select-example.png)
+
+Popover
+
+![Popover example](/images/posts/overlay-components/popover-example.png)
+
+Combobox
+
+![Combobox example](/images/posts/overlay-components/combobox-example.png)
+
+## 특수한 오버레이 컴포넌트 소개
+
+특정 UI 라이브러리에만 있는 특수한 오버레이 컴포넌트를 소개합니다.
+
+Time Picker (Material Design)
+
+![Time picker example](/images/posts/overlay-components/time-picker-example.png)
+
+Command (shadcn/ui)
+
+![Command example](/images/posts/overlay-components/command-example.png)
+
+Menubar (shadcn/ui)
+
+![Menubar example](/images/posts/overlay-components/menubar-example.png)
+
+Navigation Menu (shadcn/ui)
+
+![Navigation menu example](/images/posts/overlay-components/navigation-menu-example.png)
+
+Speed Dial (MUI)
+
+![Speed dial example](/images/posts/overlay-components/speed-dial-example.png)
+
+Hover Card (Radix UI)
+
+![Hover card example](/images/posts/overlay-components/hover-card-example.png)
+
+# Navigation bar, Navigation drawer, Navigation rail
+
+Navigation bar
+
+![Navigation bar example](/images/posts/overlay-components/navigation-bar.png)
+
+Navigation drawer
+
+![Navigation drawer example](/images/posts/overlay-components/navigation-drawer.png)
+
+Navigation rail
+
+![Navigation rail example](/images/posts/overlay-components/navigation-rail.png)
+
+# Snackbar vs Toast
+
+[Stackoverflow, 'Android - Snackbar vs Toast'](https://stackoverflow.com/a/34456712)
+
+위 스레드에 따르면, Toast는 스와이핑으로 지울 수도 없고, 유저의 액션을 받을 수도 없는 반면 Snackbar는 지울 수도 있고, 유저의 액션을 받을 수도 있다는 점에서 차이가 있다.
+
+Q. 지우는 것이 가능, 유저의 액션을 받을 수 없다가 용어 분리를 할 만큼 큰 차이를 가져오는가? 굳이 분류할 필요가 있는지 모르겠다.
+
+반례. shadcn/ui의 Toast : 지우기도 가능하고, 유저의 액션도 받을 수 있는데 이름은 Toast다.
+
+![shadcn/ui - Toast](/images/posts/overlay-components/toast-shadcn-ui.png)
+
+Snackbar와 Toast의 차이에 대해 함께 프론트엔드 스터디를 진행하는 현업 분들께 여쭤봤더니, 위의 구분보다 더 명쾌한 설명을 해주셨다.
+
+- 앱 - Snackbar
+- 웹 - Toast
+
+Google Material Design의 가이드는 대부분 앱 기준으로 설명해서 그런 용어들을 많이 쓰는 것 같다는 얘기도 덧붙여주셨다.
+
+# 중요도에 따른 오버레이 컴포넌트 사용
+
+| 컴포넌트 | 중요도 | 유저 액션                                                        |
+| -------- | ------ | ---------------------------------------------------------------- |
+| Snackbar | 저     | 자동으로 사라짐 (Optional)                                       |
+| Banner   | 중     | 유저가 무시를 누르거나, 상태가 해결될 때까지 남아있음 (Optional) |
+| Dialog   | 고     | 유저가 결정해야만 사라짐 (Required)                              |
+
+![Dialog do & don't](/images/posts/overlay-components/dialog-do-dont.png)
+
+- _정말 지우겠습니까?_ : 중요한 정보
+- _업로드되었습니다_ : 덜 중요한 정보 → **Dialog가 아닌 Snackbar를 사용해야 한다.**
+
+# References
+
+- [MUI - All components](https://mui.com/material-ui/all-components)
+- [Material Design 3 - Components](https://m3.material.io/components)
+- [Radix UI - Primitives](https://www.radix-ui.com/primitives)
+- [shadcn/ui - Components](https://ui.shadcn.com/docs/components/accordion)
+- [Chakra UI - Components](https://chakra-ui.com/docs/components)

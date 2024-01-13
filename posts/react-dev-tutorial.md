@@ -1,0 +1,1085 @@
+---
+title: react.dev 튜토리얼 메모
+date: 2023-09-17
+description: 리뉴얼된 리액트 공식문서가 그렇게 좋다던데
+thumbnail: /images/posts/react-dev-tutorial-use-effect/intro.png
+tags:
+  - React
+---
+
+[React 공식문서 - 학습하기](https://ko.react.dev/learn) 파트의 내용을 정리하였습니다.
+useEffect 관련 내용(Effect로 동기화하기 ~ Effect의 의존성 제거하기)는 내용이 많아 별도 문서로 제작하였습니다.
+
+# 시작하기
+
+## 빠르게 시작하기
+
+`&&`를 조건부 렌더링에 사용해도 된다. 다만, 조건식 부분을 확실히 Boolean으로 만들자.
+
+- Ref. [mdn, 'Falsy'](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)
+- Ref. [mdn, 'Logical AND (&&)'](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND#removing_nested_parentheses)
+
+> logical AND (&&) operator **returns the value of the first falsy operand** encountered when evaluating from left to right, or the value of the last operand if they are all truthy.
+
+`0`, `''` (빈 문자열)도 Falsy이기 때문에 `&&` 앞에 사용하는 경우가 있으나, 특히 `0`의 경우 실제로 `0`이 화면에 나오기 때문에 더 주의해야 한다.
+
+### Tic-Tac-Toe 구현 사례
+
+```jsx
+import { useState } from 'react';
+
+function Square({ value, onSquareClick }) {
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  );
+}
+
+function Board({ xIsNext, squares, onPlay }) {
+  function handleClick(i) {
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = 'X';
+    } else {
+      nextSquares[i] = 'O';
+    }
+    onPlay(nextSquares);
+  }
+
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = 'Winner: ' + winner;
+  } else {
+    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+  }
+
+  return (
+    <>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+    </>
+  );
+}
+
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = 'Go to move #' + move;
+    } else {
+      description = 'Go to game start';
+    }
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{moves}</ol>
+      </div>
+    </div>
+  );
+}
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
+```
+
+- `export default function`을 사용한다.
+- 이벤트 핸들러 네이밍은 props의 경우 `on~`, 함수의 경우 `handle~`로 한다.
+- **함수를 되도록 컴포넌트 바깥으로 빼라. 컴포넌트의 줄 수를 줄여라.** `squares`를 굳이 인자로 전달해가면서 `calculateWinner` 함수를 컴포넌트 바깥으로 뺀 지점에 집중.
+- **컴포넌트라고 생각하지 말고, 그냥 함수를 만든다고 생각해라.**
+  - 불필요한 useState 금지 : 파생 상태를 굳이 state로 만들지 마라. ex. `xIsNext`, `currentSquares`
+  - 불필요한 useEffect 금지 : side effect가 아닌 걸 굳이 effect로 만들지 마라. ex. `let status`
+- map 내부에서 하는 일이 많아 오히려 return 문 내에서 쓰는 것이 가독성에 좋지 않다고 판단된다면, `moves`처럼 별도 변수로 제작하여 끼워넣는 방식을 사용해도 괜찮다.
+
+React 공식문서에서는 `export default function`을 컨벤션으로 사용하는 듯하지만, 개인적으로는 화살표 함수 + named export 를 선호한다.
+이유는 상대적으로 더 가벼운 화살표 함수가 의도 전달에 더 명확하며, named export를 해야 컴포넌트명을 바꾸기가 수월하기 때문이다.
+
+## 설치
+
+### React 프레임워크와 제작 팀
+
+- Next.js - Vercel <https://nextjs.org>
+- Remix - Shopify <https://remix.run>
+- Gatsby - Netlify <https://www.gatsbyjs.com>
+- Expo - Expo <https://expo.dev>
+
+### TypeScript useReducer 사용 사례
+
+```jsx
+import { useReducer } from 'react';
+
+interface State {
+  count: number;
+}
+
+type CounterAction =
+  | { type: 'reset' }
+  | { type: 'setCount', value: State['count'] };
+
+const initialState: State = { count: 0 };
+
+function stateReducer(state: State, action: CounterAction): State {
+  switch (action.type) {
+    case 'reset':
+      return initialState;
+    case 'setCount':
+      return { ...state, count: action.value };
+    default:
+      throw new Error('Unknown action');
+  }
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(stateReducer, initialState);
+
+  const addFive = () => dispatch({ type: 'setCount', value: state.count + 5 });
+  const reset = () => dispatch({ type: 'reset' });
+
+  return (
+    <div>
+      <h1>Welcome to my counter</h1>
+
+      <p>Count: {state.count}</p>
+      <button onClick={addFive}>Add 5</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
+}
+```
+
+- switch문에서 예견되지 않은 `default`를 `return initialState`와 같이 얼버무리지 않고, 제대로 에러를 발생시킨다.
+- `useReducer`를 애용해라.
+
+### TypeScript useContext 사용 사례
+
+```tsx
+import { createContext, useContext, useState, useMemo } from 'react';
+
+// This is a simpler example, but you can imagine a more complex object here
+type ComplexObject = {
+  kind: string;
+};
+
+// The context is created with `| null` in the type, to accurately reflect the default value.
+const Context = createContext<ComplexObject | null>(null);
+
+// The `| null` will be removed via the check in the hook.
+const useGetComplexObject = () => {
+  const object = useContext(Context);
+  if (!object) {
+    throw new Error('useGetComplexObject must be used within a Provider');
+  }
+  return object;
+};
+
+export default function MyApp() {
+  const object = useMemo(() => ({ kind: 'complex' }), []);
+
+  return (
+    <Context.Provider value={object}>
+      <MyComponent />
+    </Context.Provider>
+  );
+}
+
+function MyComponent() {
+  const object = useGetComplexObject();
+
+  return (
+    <div>
+      <p>Current object: {object.kind}</p>
+    </div>
+  );
+}
+```
+
+- Context 타입 `nullable`하게 안 만들겠다고 억지 initial value 넣지 말자.
+  - ex. `{ id: 1, name: '', age: 0 }`
+  - 대신 wrapper를 사용해 타입을 좁혀주자.
+- object가 없을 때 얼버무리지 않고, 정확히 _useGetComplexObject must be used within a Provider_ 라고 에러를 설명한 뒤 throw 한다.
+- object 만드는 연산이 비싸다면, 초기화할 때도 `useMemo`를 사용할 수 있다.
+
+### TypeScript useMemo, useCallback 사용 사례
+
+```tsx
+// The type of visibleTodos is inferred from the return value of filterTodos
+const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+
+const handleChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
+  (e) => {
+    setValue(e.currentTarget.value);
+  },
+  [setValue]
+);
+```
+
+- 결과값이 변수면 useMemo, 함수면 useCallback을 사용하는 것이 관례다.
+- 이벤트 핸들러 함수에 useCallback을 쓰는 것이 특징적이다. (`*EventHandler` 타입을 사용할 수 있게 되어서 더 가독성이 좋아지는 것 같기도..?)
+
+# React 학습
+
+## UI 표현하기
+
+![import 캡처](/images/posts/react-dev-tutorial/import-capture.png)
+
+`./Gallery.tsx` 처럼 확장자를 밝혀 import하는 게 정석이다.
+
+### 조건에 따른 변수 분기 리팩토링 사례
+
+Question.
+
+```jsx
+function Drink({ name }) {
+  return (
+    <section>
+      <h1>{name}</h1>
+      <dl>
+        <dt>Part of plant</dt>
+        <dd>{name === 'tea' ? 'leaf' : 'bean'}</dd>
+        <dt>Caffeine content</dt>
+        <dd>{name === 'tea' ? '15–70 mg/cup' : '80–185 mg/cup'}</dd>
+        <dt>Age</dt>
+        <dd>{name === 'tea' ? '4,000+ years' : '1,000+ years'}</dd>
+      </dl>
+    </section>
+  );
+}
+```
+
+Answer #1.
+
+```jsx
+function Drink({ name }) {
+  let part, caffeine, age;
+  if (name === 'tea') {
+    part = 'leaf';
+    caffeine = '15–70 mg/cup';
+    age = '4,000+ years';
+  } else if (name === 'coffee') {
+    part = 'bean';
+    caffeine = '80–185 mg/cup';
+    age = '1,000+ years';
+  }
+  return (
+    <section>
+      <h1>{name}</h1>
+      <dl>
+        <dt>Part of plant</dt>
+        <dd>{part}</dd>
+        <dt>Caffeine content</dt>
+        <dd>{caffeine}</dd>
+        <dt>Age</dt>
+        <dd>{age}</dd>
+      </dl>
+    </section>
+  );
+}
+```
+
+Answer #2. Custom hook pattern
+
+```jsx
+function Drink({ name }) {
+  const { part, caffeine, age } = useDrinkInfo(name);
+  return (
+    <section>
+      <h1>{name}</h1>
+      <dl>
+        <dt>Part of plant</dt>
+        <dd>{part}</dd>
+        <dt>Caffeine content</dt>
+        <dd>{caffeine}</dd>
+        <dt>Age</dt>
+        <dd>{age}</dd>
+      </dl>
+    </section>
+  );
+}
+
+function useDrinkInfo(name) {
+  switch (name) {
+    case 'tea':
+      return {
+        part: 'leaf',
+				caffeine: '15-70mg/cup',
+				age: '4,000+ years';
+			};
+		case 'coffee':
+      return {
+        part: 'bean',
+				caffeine: '80-185mg/cup',
+				age: '1,000+ years';
+			};
+    default:
+			throw new Error('Wrong drink name');
+  }
+};
+```
+
+Answer #3. 공식문서에 나온 리팩토링
+
+```jsx
+const drinks = {
+  tea: {
+    part: 'leaf',
+    caffeine: '15–70 mg/cup',
+    age: '4,000+ years',
+  },
+  coffee: {
+    part: 'bean',
+    caffeine: '80–185 mg/cup',
+    age: '1,000+ years',
+  },
+};
+
+function Drink({ name }) {
+  const info = drinks[name];
+  return (
+    <section>
+      <h1>{name}</h1>
+      <dl>
+        <dt>Part of plant</dt>
+        <dd>{info.part}</dd>
+        <dt>Caffeine content</dt>
+        <dd>{info.caffeine}</dd>
+        <dt>Age</dt>
+        <dd>{info.age}</dd>
+      </dl>
+    </section>
+  );
+}
+```
+
+사실 로직 없이 단순 정보 매치라 custom hook 패턴을 쓰는 것은 좀 과하고, 이 방식이 더 좋은 듯하다. 👍
+
+## 상호작용성 더하기
+
+### 리액트 렌더링 과정
+
+1. 렌더링 트리거
+   - 컴포넌트의 초기 렌더링인 경우
+   - 컴포넌트의 state가 업데이트된 경우
+2. 렌더링
+   - 초기 렌더링의 경우, 루트 컴포넌트 호출
+   - 이후 렌더링의 경우, 렌더링을 트리거한 컴포넌트 호출
+   - **재귀적 단계 : 컴포넌트가 자식 컴포넌트를 반환하면 그 컴포넌트도 다시 렌더링함.**
+3. DOM에 변경사항 커밋 : Renderer가 컴포넌트 정보를 DOM에 삽입 (여기부터는 렌더링 아님)
+   - 렌더링 간에 차이가 있는 경우에만 DOM 노드를 변경한다. 여기서 차이는 JSX 마크업의 차이가 아니라 **UI 트리에서의 위치 차이**를 말한다. 예를 들어, if 문으로 컴포넌트가 분기되었더라도 위치가 같다면 새로 렌더링하지 않는다.
+4. 브라우저 페인팅 : 브라우저가 DOM을 페인팅
+
+### 같은 자리의 같은 컴포넌트는 state를 보존합니다
+
+```jsx
+export default function App() {
+  const [isFancy, setIsFancy] = useState(false);
+  if (isFancy) {
+    return (
+      <div>
+        <Counter isFancy={true} />
+        <label>
+          <input
+            type="checkbox"
+            checked={isFancy}
+            onChange={(e) => {
+              setIsFancy(e.target.checked);
+            }}
+          />
+          Use fancy styling
+        </label>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <Counter isFancy={false} />
+      <label>
+        <input
+          type="checkbox"
+          checked={isFancy}
+          onChange={(e) => {
+            setIsFancy(e.target.checked);
+          }}
+        />
+        Use fancy styling
+      </label>
+    </div>
+  );
+}
+
+function Counter({ isFancy }) {
+  const [score, setScore] = useState(0);
+  const [hover, setHover] = useState(false);
+
+  let className = 'counter';
+  if (hover) {
+    className += ' hover';
+  }
+  if (isFancy) {
+    className += ' fancy';
+  }
+
+  return (
+    <div
+      className={className}
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
+    >
+      <h1>{score}</h1>
+      <button onClick={() => setScore(score + 1)}>Add one</button>
+    </div>
+  );
+}
+```
+
+체크 박스를 선택할 때 state가 초기화될 거라고 생각했을 수도 있지만 그렇지 않다. **두 `<Counter />` 태그가 같은 위치에 렌더링되기** 때문이다. React는 함수 안 어디에 조건문이 있는지 모른다. React는 당신이 반환하는 트리만 본다. 두 상황에서 `App` 컴포넌트는 `<Counter />`를 첫 번째 자식으로 가진 `<div>`를 반환한다. 이것이 React가 두 `<Counter />`를 _같은_ 것으로 보는 이유다.
+
+하지만 `<div>`를 `<section>`으로 바꾸는 등 트리를 바꿔버리면 체크 박스를 선택할 때 state가 초기화된다.
+
+결과를 직접 체험해보세요!
+
+[State를 보존하고 초기화하기 – React](https://ko.react.dev/learn/preserving-and-resetting-state#same-component-at-the-same-position-preserves-state)
+
+### Immer
+
+use-immer 라이브러리를 활용하면 `...` 전개를 생략할 수 있다.
+
+```tsx
+export default function Form() {
+  const [person, setPerson] = useState({
+    name: 'Niki de Saint Phalle',
+    artwork: {
+      title: 'Blue Nana',
+      city: 'Hamburg',
+      image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+    }
+  });
+
+	function handleTitleChange(e) {
+    setPerson({
+      ...person,
+      artwork: {
+        ...person.artwork,
+        title: e.target.value
+      }
+    });
+  }
+  ...
+```
+
+```tsx
+import { useImmer } from 'use-immer';
+
+export default function Form() {
+  const [person, updatePerson] = useImmer({
+    name: 'Niki de Saint Phalle',
+    artwork: {
+      title: 'Blue Nana',
+      city: 'Hamburg',
+      image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+    }
+  });
+
+	function handleTitleChange(e) {
+    updatePerson(draft => {
+      draft.artwork.title = e.target.value;
+    });
+  }
+  ...
+```
+
+다중 전개까지 커버해주다니… 엄청나다.
+
+Immer는 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 객체 타입으로 구현되었다고 한다. 관심 있으면 찾아보도록 하자.
+
+![JavaScript의 순수한 연산](/images/posts/react-dev-tutorial/pure-functions.png)
+
+그러나, `[...]`은 얕은 복사이기 때문에 **배열을 복사하더라도 배열 _내부_ 에 기존 항목을 직접 변경해서는 안됩니다**.
+
+```jsx
+let nextId = 3;
+const initialList = [
+  { id: 0, title: 'Big Bellies', seen: false },
+  { id: 1, title: 'Lunar Landscape', seen: false },
+  { id: 2, title: 'Terracotta Army', seen: true },
+];
+
+export default function BucketList() {
+  const [myList, setMyList] = useState(initialList);
+  const [yourList, setYourList] = useState(initialList);
+
+  function handleToggleMyList(artworkId, nextSeen) {
+    const myNextList = [...myList];
+    const artwork = myNextList.find((a) => a.id === artworkId);
+    artwork.seen = nextSeen;
+    setMyList(myNextList);
+  }
+
+  function handleToggleYourList(artworkId, nextSeen) {
+    const yourNextList = [...yourList];
+    const artwork = yourNextList.find((a) => a.id === artworkId);
+    artwork.seen = nextSeen;
+    setYourList(yourNextList);
+  }
+
+  return (
+    <>
+      <h1>Art Bucket List</h1>
+      <h2>My list of art to see:</h2>
+      <ItemList artworks={myList} onToggle={handleToggleMyList} />
+      <h2>Your list of art to see:</h2>
+      <ItemList artworks={yourList} onToggle={handleToggleYourList} />
+    </>
+  );
+}
+```
+
+굉장히 깔끔한 코드지만, 같은 initialState에서 왔기 때문에 spread copy를 하더라도 리스트 내부 객체는 복사되지 않는다. 그래서 myList의 체크박스를 클릭했을 때 yourList의 값이 동시에 바뀌는 버그가 발생한다.
+
+```jsx
+function handleToggleMyList(artworkId, nextSeen) {
+  setMyList(
+    myList.map((artwork) => {
+      if (artwork.id === artworkId) {
+        return { ...artwork, seen: nextSeen };
+      } else {
+        return artwork;
+      }
+    })
+  );
+}
+```
+
+따라서 이런 방식으로 deep copy를 해주어야 한다.
+
+```jsx
+function handleToggleMyList(artworkId, nextSeen) {
+  updateMyTodos((draft) => {
+    const artwork = draft.find((a) => a.id === artworkId);
+    artwork.seen = nextSeen;
+  });
+}
+```
+
+Immer를 쓰면 그냥 `artwork.seen = nextSeen` 의 문법으로도 동일 동작을 할 수 있어 가독성에 좋다.
+
+## State 관리하기 [중급]
+
+### State 잘 짜는 법
+
+1. Group related state. (ex. `x, y` → `position`)
+2. Avoid contradictions in state. (ex. `isSending, isSent` → `status (typing, sending, sent)`)
+3. Avoid redundant state. 파생 상태 제거
+4. Avoid duplication in state. (ex. `items, selectedItem` → `items, selectedId`)
+5. Avoid deeply nested state.
+
+### key를 이용해 state를 초기화하기
+
+**key는 배열을 위한 것만은 아닙니다!**
+
+기본적으로 React는 컴포넌트를 구별하기 위해 부모 안에서의 순서(“첫 번째 카운터”, “두 번째 카운터”)를 이용합니다. 그러나 key를 이용하면 React에게 단지 _첫 번째_ 카운터나 _두 번째_ 카운터가 아니라 특정한 카운터라고 말해줄 수 있습니다.
+
+`key`를 명시하면 React는 부모 내에서의 순서 대신에 `key` 자체를 위치의 일부로 사용합니다. 이것이 컴포넌트를 JSX에서 같은 자리에 렌더링하지만 React 관점에서는 다른 카운터인 이유입니다. 결과적으로 그들은 절대 state를 공유하지 않습니다.
+
+```jsx
+export default function Scoreboard() {
+  const [isPlayerA, setIsPlayerA] = useState(true);
+  return (
+    <div>
+      {isPlayerA ? (
+        <Counter key="Taylor" person="Taylor" />
+      ) : (
+        <Counter key="Sarah" person="Sarah" />
+      )}
+      <button
+        onClick={() => {
+          setIsPlayerA(!isPlayerA);
+        }}
+      >
+        Next player!
+      </button>
+    </div>
+  );
+}
+```
+
+[State를 보존하고 초기화하기 – React](https://ko.react.dev/learn/preserving-and-resetting-state#challenges)
+
+💡 챌린지가 꽤 좋으니 한번 풀어보세요!
+
+- Form 초기화
+- 이미지 로딩되기 전에 일단 예전 이미지 끄기
+- `key={index}`로 한 뒤 배열을 뒤집어도 index는 그대로라, 상태가 데이터를 따라 가지 않는 버그
+
+### useReducer 도입하는 방법
+
+1. setter를 사용하는 지점을 모두 모아본다.
+2. 변경하는 방식이 같은 것끼리 모아 reducer action으로 분리한다.
+
+유의할 점
+
+- Reducer는 반드시 순수해야 한다. 요청을 보내거나 timeout을 스케쥴링하는 등 사이드 이펙트가 있어서는 안 된다.
+- action은 변경 기준이 아니라 사용자 상호작용 기준으로 작성해야 한다. 예를 들어, reducer가 관리하는 5개의 필드가 있는 양식에서 ‘재설정’을 누른 경우, 5개의 개별 `set_field` action보다는 하나의 `reset_form` action을 전송하는 것이 더 합리적이다.
+
+### Reducer 작성 사례
+
+```tsx
+function tasksReducer(tasks, action) {
+  switch (action.type) {
+    case 'added': {
+      return [
+        ...tasks,
+        {
+          id: action.id,
+          text: action.text,
+          done: false,
+        },
+      ];
+    }
+    case 'changed': {
+      return tasks.map((t) => {
+        if (t.id === action.task.id) {
+          return action.task;
+        } else {
+          return t;
+        }
+      });
+    }
+    case 'deleted': {
+      return tasks.filter((t) => t.id !== action.id);
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+```
+
+- `action.type`의 네이밍 컨벤션은 `added`, `added_task` 처럼 과거형 동사다.
+- if … else 문 대신 switch 문을 사용하고, default에 throw Error를 한다.
+- case 별로 지역 변수를 구분하기 위하여 `{ }`으로 감싼다.
+- case는 대부분의 경우 return으로 끝나야 한다.
+
+```jsx
+function tasksReducer(draft, action) {
+  switch (action.type) {
+    case 'added': {
+      draft.push({
+        id: action.id,
+        text: action.text,
+        done: false
+      });
+      break;
+    }
+    case 'changed': {
+      const index = draft.findIndex(t =>
+        t.id === action.task.id
+      );
+      draft[index] = action.task;
+      break;
+    }
+    case 'deleted': {
+      return draft.filter(t => t.id !== action.id);
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+
+export default function TaskApp() {
+  const [tasks, dispatch] = useImmerReducer(
+    tasksReducer,
+    initialTasks
+  );
+  ...
+```
+
+`useImmerReducer`를 사용하면 reducer에서도 Immer를 사용할 수 있다.
+
+- 객체 복사 안 하고 `.push`를 사용하여 요소 추가
+- 객체 복사 안 하고 `draft[index] =`를 사용하여 값 변경
+
+### useReducer + useContext 사용 사례
+
+```tsx
+// App.js
+import AddTask from './AddTask.js';
+import TaskList from './TaskList.js';
+import { TasksProvider } from './TasksContext.js';
+
+export default function TaskApp() {
+  return (
+    <TasksProvider>
+      <h1>Day off in Kyoto</h1>
+      <AddTask />
+      <TaskList />
+    </TasksProvider>
+  );
+}
+
+// AddTask.js
+import { useState, useContext } from 'react';
+import { TasksDispatchContext } from './TasksContext.js';
+
+export default function AddTask({ onAddTask }) {
+  const [text, setText] = useState('');
+  const dispatch = useContext(TasksDispatchContext);
+  return (
+    <>
+      <input
+        placeholder="Add task"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button
+        onClick={() => {
+          setText('');
+          dispatch({
+            type: 'added',
+            id: nextId++,
+            text: text,
+          });
+        }}
+      >
+        Add
+      </button>
+    </>
+  );
+}
+
+let nextId = 3;
+
+// TaskList.js
+import { useState, useContext } from 'react';
+import { TasksContext, TasksDispatchContext } from './TasksContext.js';
+
+export default function TaskList() {
+  const tasks = useContext(TasksContext);
+  return (
+    <ul>
+      {tasks.map((task) => (
+        <li key={task.id}>
+          <Task task={task} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Task({ task }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useContext(TasksDispatchContext);
+  let taskContent;
+  if (isEditing) {
+    taskContent = (
+      <>
+        <input
+          value={task.text}
+          onChange={(e) => {
+            dispatch({
+              type: 'changed',
+              task: {
+                ...task,
+                text: e.target.value,
+              },
+            });
+          }}
+        />
+        <button onClick={() => setIsEditing(false)}>Save</button>
+      </>
+    );
+  } else {
+    taskContent = (
+      <>
+        {task.text}
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      </>
+    );
+  }
+  return (
+    <label>
+      <input
+        type="checkbox"
+        checked={task.done}
+        onChange={(e) => {
+          dispatch({
+            type: 'changed',
+            task: {
+              ...task,
+              done: e.target.checked,
+            },
+          });
+        }}
+      />
+      {taskContent}
+      <button
+        onClick={() => {
+          dispatch({
+            type: 'deleted',
+            id: task.id,
+          });
+        }}
+      >
+        Delete
+      </button>
+    </label>
+  );
+}
+
+// TasksContext.js
+import { createContext, useContext, useReducer } from 'react';
+
+const TasksContext = createContext(null);
+
+const TasksDispatchContext = createContext(null);
+
+export function TasksProvider({ children }) {
+  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+
+  return (
+    <TasksContext.Provider value={tasks}>
+      <TasksDispatchContext.Provider value={dispatch}>
+        {children}
+      </TasksDispatchContext.Provider>
+    </TasksContext.Provider>
+  );
+}
+
+export function useTasks() {
+  return useContext(TasksContext);
+}
+
+export function useTasksDispatch() {
+  return useContext(TasksDispatchContext);
+}
+
+function tasksReducer(tasks, action) {
+  switch (action.type) {
+    case 'added': {
+      return [
+        ...tasks,
+        {
+          id: action.id,
+          text: action.text,
+          done: false,
+        },
+      ];
+    }
+    case 'changed': {
+      return tasks.map((t) => {
+        if (t.id === action.task.id) {
+          return action.task;
+        } else {
+          return t;
+        }
+      });
+    }
+    case 'deleted': {
+      return tasks.filter((t) => t.id !== action.id);
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+
+const initialTasks = [
+  { id: 0, text: 'Philosopher’s Path', done: true },
+  { id: 1, text: 'Visit the temple', done: false },
+  { id: 2, text: 'Drink matcha', done: false },
+];
+```
+
+Ref. [Reducer와 Context로 앱 확장하기 - React](https://ko.react.dev/learn/scaling-up-with-reducer-and-context)
+
+## 탈출구 (Escape Hatches) [고급]
+
+ref는 React가 추적하지 않는 컴포넌트의 탈출구와 같다.
+
+ref가 변경되어도 렌더링에 영향을 주지 않는다.
+
+### useRef를 사용할 시기
+
+일반적으로 컴포넌트의 형태에 영향을 미치지 않는 Web API를 사용할 때 ref를 사용한다.
+
+- timeout id 저장
+- DOM 엘리먼트 저장
+- JSX를 계산하는 데 필요하지 않은 다른 객체 저장
+
+ex. 스톱워치
+
+```jsx
+import { useState, useRef } from 'react';
+
+export default function Stopwatch() {
+  const [startTime, setStartTime] = useState(null);
+  const [now, setNow] = useState(null);
+  const intervalRef = useRef(null);
+
+  function handleStart() {
+    setStartTime(Date.now());
+    setNow(Date.now());
+
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setNow(Date.now());
+    }, 10);
+  }
+
+  function handleStop() {
+    clearInterval(intervalRef.current);
+  }
+
+  let secondsPassed = 0;
+  if (startTime != null && now != null) {
+    secondsPassed = (now - startTime) / 1000;
+  }
+
+  return (
+    <>
+      <h1>Time passed: {secondsPassed.toFixed(3)}</h1>
+      <button onClick={handleStart}>Start</button>
+      <button onClick={handleStop}>Stop</button>
+    </>
+  );
+}
+```
+
+### ref 리스트 관리하기
+
+리스트의 길이가 가변적인 상황에서는 ref를 렌더링 시점에 미리 줄 수 없다. 이럴 때는 ref 콜백을 이용하자.
+
+```jsx
+import { useRef } from 'react';
+
+export default function CatFriends() {
+  const itemsRef = useRef(null);
+
+  function scrollToId(itemId) {
+    const map = getMap();
+    const node = map.get(itemId);
+    node.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  }
+
+  function getMap() {
+    if (!itemsRef.current) {
+      // 처음 사용하는 경우, Map을 초기화합니다.
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
+
+  return (
+    <>
+      <nav>
+        <button onClick={() => scrollToId(0)}>Tom</button>
+        <button onClick={() => scrollToId(5)}>Maru</button>
+        <button onClick={() => scrollToId(9)}>Jellylorum</button>
+      </nav>
+      <div>
+        <ul>
+          {catList.map((cat) => (
+            <li
+              key={cat.id}
+              ref={(node) => {
+                const map = getMap();
+                if (node) {
+                  map.set(cat.id, node);
+                } else {
+                  map.delete(cat.id);
+                }
+              }}
+            >
+              <img src={cat.imageUrl} alt={'Cat #' + cat.id} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+const catList = [];
+for (let i = 0; i < 10; i++) {
+  catList.push({
+    id: i,
+    imageUrl: 'https://placekitten.com/250/200?image=' + i,
+  });
+}
+```
+
+포커스 및 스크롤 관리 같은 비 파괴적인 행동을 고수한다면 어떤 문제도 마주치지 않을 것입니다. 하지만 DOM을 직접 수정하는 시도를 한다면 React가 만들어 내는 변경 사항과 충돌을 발생시킬 위험을 감수해야 합니다.
+
+**React가 관리하는 DOM 노드를 직접 바꾸려 하지 마세요.** React가 관리하는 DOM 요소에 대한 수정, 자식 추가 혹은 자식 삭제는 비일관적인 시각적 결과 혹은 위 예시처럼 충돌로 이어집니다.
+
+하지만 항상 이것을 할 수 없다는 의미는 아닙니다. 주의 깊게 사용해야 합니다. 안전하게 React가 업데이트할 이유가 없는 DOM 노드 일부를 수정할 수 있습니다. 예를 들어 **몇몇 `<div>`가 항상 빈 채로 JSX에 있다면, React는 해당 노드의 자식 요소를 건드릴 이유가 없습니다. 따라서 빈 노드에서 엘리먼트를 추가하거나 삭제하는 것은 안전합니다.**
+
+### `use~`를 앞에 붙이는 것의 의미
+
+만약 컴포넌트 안에 `getColor()`라는 함수를 보았다면, 해당 함수의 이름이 `use`로 시작하지 않으므로 함수 안에 React state가 있을 수 없다는 것을 확신할 수 있습니다. 반대로 `useOnlineStatus()` 함수의 경우 높은 확률로 내부에 다른 Hook을 사용하고 있을 수 있습니다!
+
+**함수가 어떤 Hook도 호출하지 않는다면, `use`를 이름 앞에 작성하는 것을 피하세요.** 대신, `use` 없이 일반적인 함수로 작성하세요. 예를 들어 `useSorted`가 Hook을 호출하지 않는다면 `getSorted`로 변경할 수 있습니다.
