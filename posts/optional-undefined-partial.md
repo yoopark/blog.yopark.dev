@@ -1,6 +1,6 @@
 ---
 title: Optional, Undefined, Partial
-date: 2022-08-10
+date: 2023-08-10
 description: 인자 전달 안함 ≠ undefined 전달
 thumbnail: /images/posts/optional-undefined-partial/typescript.png
 tags:

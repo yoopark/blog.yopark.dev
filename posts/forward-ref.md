@@ -1,6 +1,6 @@
 ---
 title: forwardRef
-date: 2022-09-27
+date: 2023-09-27
 description: ref가 안 돼서 일단 쓰긴 했는데...
 thumbnail: /images/posts/forward-ref/react.jpeg
 tags:
