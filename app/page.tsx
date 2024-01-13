@@ -1,4 +1,5 @@
 import { allPosts } from '@contentlayer/generated';
+import { format } from 'date-fns';
 
 const Home = () => {
   return (
@@ -7,7 +8,7 @@ const Home = () => {
         return (
           <div key={post._raw.flattenedPath}>
             <h1>{post.title}</h1>
-            <p>{post.date}</p>
+            <p>{format(post.date, 'yyyy. MM. dd.')}</p>
             <p>{post.description}</p>
           </div>
         );
