@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { cn } from '@/utils/cn';
 import './globals.css';
@@ -26,7 +27,10 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <html lang="ko">
       <Header />
-      <body className={cn(pretendard.className, 'mt-20')}>{children}</body>
+      <body className={cn(pretendard.className, 'mt-20 mb-10')}>
+        {children}
+      </body>
+      <Footer />
     </html>
   );
 };
