@@ -2,6 +2,7 @@ import { PostHeader } from '@/app/posts/[slug]/components/PostHeader';
 import { Post as PostType } from '@contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
+
 type PostProps = {
   post: PostType;
 };
@@ -25,7 +26,7 @@ export const Post = ({
   const MDXContent = useMDXComponent(code);
 
   return (
-    <div className="max-w-screen-md m-auto px-4 flex flex-col gap-20">
+    <div className="px-4 flex flex-col gap-20">
       <div className="flex flex-col gap-10">
         <PostHeader {...props} />
         <Image
@@ -36,7 +37,7 @@ export const Post = ({
           className="rounded-lg"
         />
       </div>
-      <article className="prose dark:prose-invert m-auto">
+      <article className="prose dark:prose-invert mx-auto">
         <MDXContent components={{ a: MDXNewTabAnchor }} />
       </article>
     </div>
