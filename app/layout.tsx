@@ -3,7 +3,6 @@ import localFont from 'next/font/local';
 
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
-import { cn } from '@/utils/cn';
 import './globals.css';
 
 const pretendard = localFont({
@@ -26,11 +25,11 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <html lang="ko">
-      <Header />
-      <body className={cn(pretendard.className, 'mt-20 mb-10')}>
-        {children}
+      <body className={pretendard.className}>
+        <Header />
+        <main className="mt-20 mb-10">{children}</main>
+        <Footer />
       </body>
-      <Footer />
     </html>
   );
 };
