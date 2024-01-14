@@ -19,7 +19,7 @@ export const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
   }
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 flex-col md:flex-row mx-2">
       {hasPrevPost && (
         <div
           className="p-6 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 active:scale-95 flex flex-col items-start gap-2 rounded-lg flex-1 cursor-pointer transition"

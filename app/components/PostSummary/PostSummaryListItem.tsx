@@ -29,15 +29,16 @@ export const PostSummaryListItem = ({
     <FadeInFromLeft>
       <div
         className={cn(
-          'bg-gray-100/50 p-5 rounded-lg flex gap-8 transition items-center cursor-pointer',
-          'hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]'
+          'bg-gray-100/50 p-5 rounded-lg flex gap-8 transition cursor-pointer',
+          'hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]',
+          'md:flex-row flex-col md:items-center'
         )}
         onClick={() => router.push(ROUTES.POST_OF(flattenedPath))}
       >
         <Image
           src={thumbnail}
           alt={title}
-          className="object-cover w-52 h-28 rounded-lg"
+          className="object-cover w-full aspect-video md:w-52 rounded-lg"
           width={1000}
           height={1000}
         />

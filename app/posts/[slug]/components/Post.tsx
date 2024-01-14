@@ -34,7 +34,7 @@ export const Post = ({
           alt={props.title}
           width={2000}
           height={2000}
-          className="rounded-lg"
+          className="rounded-lg aspect-video w-full"
         />
       </div>
       <article className="prose dark:prose-invert mx-auto">

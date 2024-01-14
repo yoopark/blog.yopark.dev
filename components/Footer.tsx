@@ -7,7 +7,7 @@ const year = new Date().getFullYear();
 export const Footer = () => {
   return (
     <footer className="bg-gray-100">
-      <div className="max-w-screen-lg px-8 py-12 m-auto flex gap-10">
+      <div className="max-w-screen-lg px-8 py-12 m-auto flex flex-col md:flex-row gap-10">
         <Image
           width={200}
           height={200}
