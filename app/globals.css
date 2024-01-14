@@ -9,7 +9,7 @@
 }
 
 .prose .anchor {
-  @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg h-full;
+  @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg;
 }
 
 .prose .anchor:after {
