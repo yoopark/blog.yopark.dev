@@ -1,5 +1,6 @@
 import { Post } from '@/app/posts/[slug]/components/Post';
 import { PostNavigator } from '@/app/posts/[slug]/components/PostNavigator';
+import { LyketButton } from '@/components/LyketButton';
 import { getPostWithAdjacentPostBySlug } from '@/utils/contentlayer/getPostWithAdjacentPostBySlug';
 import { notFound } from 'next/navigation';
 
@@ -20,6 +21,7 @@ const PostPage = ({ params: { slug } }: PostPageProps) => {
     <div className="flex flex-col gap-20 max-w-[70ch] mx-auto">
       <Post post={post} />
       <PostNavigator prevPost={prevPost} nextPost={nextPost} />
+      <LyketButton />
     </div>
   );
 };

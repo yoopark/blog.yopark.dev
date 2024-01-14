@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lyket/react": "^2.1.0",
     "@svgr/webpack": "^8.1.0",
     "clsx": "^2.1.0",
     "contentlayer": "^0.3.4",
