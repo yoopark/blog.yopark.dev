@@ -7,3 +7,17 @@
     scroll-behavior: smooth;
   }
 }
+
+.prose .anchor {
+  @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg;
+}
+
+.prose .anchor:after {
+  @apply text-green-400;
+  content: '⏎';
+}
+
+.anchor:hover,
+.prose *:hover > .anchor {
+  @apply visible;
+}

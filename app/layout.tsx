@@ -27,7 +27,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
     <html lang="ko">
       <body className={pretendard.className}>
         <Header />
-        <main className="mt-20 mb-10">{children}</main>
+        <main className="mt-20 mb-20">{children}</main>
         <Footer />
       </body>
     </html>
