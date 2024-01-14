@@ -49,7 +49,7 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       [
-        rehypePrettyCode,
+        rehypePrettyCode as any /* FIXME: type assertion */,
         {
           theme: 'material-theme-palenight',
         },
