@@ -9,15 +9,44 @@
 }
 
 .prose .anchor {
-  @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg;
+  @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg h-full;
 }
 
 .prose .anchor:after {
-  @apply text-green-400;
+  @apply text-gray-400 transition;
   content: '⏎';
 }
 
-.anchor:hover,
+.prose .anchor:hover,
 .prose *:hover > .anchor {
   @apply visible;
+}
+
+.prose .anchor:after:hover {
+  @apply text-green-400;
+}
+
+.prose h1,
+.prose h2 {
+  @apply mt-12 font-semibold;
+}
+
+.prose h3 {
+  @apply mt-6 font-semibold;
+}
+
+.prose :not(pre) > code {
+  @apply before:content-none after:content-none font-normal bg-gray-50 py-0.5 px-1 rounded-md;
+}
+
+.prose a {
+  @apply font-normal text-green-600 underline transition hover:text-green-600/70;
+}
+
+.prose blockquote {
+  @apply font-normal not-italic text-gray-600;
+}
+
+.prose blockquote p {
+  @apply before:content-none after:content-none;
 }

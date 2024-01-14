@@ -7,7 +7,7 @@ export const Header = () => {
   const latestPost = getLatestPost();
 
   return (
-    <header className="fixed h-20 w-full flex items-center top-0 bg-white/50 backdrop-blur-md">
+    <header className="fixed h-20 w-full flex items-center top-0 bg-white/50 backdrop-blur-md z-10">
       <div className="flex w-full items-center justify-between max-w-screen-lg m-auto px-4">
         <h1 className="font-bold text-2xl transition py-2 px-4 rounded-lg hover:bg-green-100/50 active:bg-green-200/50 active:scale-95">
           <Link href={ROUTES.ROOT}>🌱 Yopark Devlog</Link>
