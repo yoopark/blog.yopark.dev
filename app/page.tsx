@@ -3,7 +3,7 @@ import forest from '@/assets/images/forest.jpeg';
 import { getAllPostsByNewest } from '@/utils/contentlayer/getAllPostsByNewest';
 import Image from 'next/image';
 
-const Home = () => {
+const HomePage = () => {
   const allPosts = getAllPostsByNewest();
 
   return (
@@ -28,4 +28,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
