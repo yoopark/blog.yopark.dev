@@ -1,6 +1,8 @@
+import Script from 'next/script';
+
 export const Giscus = () => {
   return (
-    <script
+    <Script
       src="https://giscus.app/client.js"
       data-repo={process.env.NEXT_PUBLIC_GISCUS_DATA_REPO ?? ''}
       data-repo-id={process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID ?? ''}
@@ -14,7 +16,6 @@ export const Giscus = () => {
       data-theme="preferred_color_scheme"
       data-lang="ko"
       crossOrigin="anonymous"
-      async
-    ></script>
+    ></Script>
   );
 };

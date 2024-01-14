@@ -1,5 +1,6 @@
 import { Post } from '@/app/posts/[slug]/components/Post';
 import { PostNavigator } from '@/app/posts/[slug]/components/PostNavigator';
+import { Giscus } from '@/components/Giscus';
 import { LyketButton } from '@/components/LyketButton';
 import { getPostWithAdjacentPostBySlug } from '@/utils/contentlayer/getPostWithAdjacentPostBySlug';
 import { notFound } from 'next/navigation';
@@ -22,6 +23,7 @@ const PostPage = ({ params: { slug } }: PostPageProps) => {
       <Post post={post} />
       <PostNavigator prevPost={prevPost} nextPost={nextPost} />
       <LyketButton />
+      <Giscus />
     </div>
   );
 };
