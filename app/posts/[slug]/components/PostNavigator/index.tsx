@@ -19,10 +19,10 @@ export const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
   }
 
   return (
-    <div className="flex gap-3 flex-col md:flex-row mx-2">
+    <div className="flex flex-col w-full gap-3 mx-2 md:flex-row">
       {hasPrevPost && (
         <div
-          className="p-6 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 active:scale-95 flex flex-col items-start gap-2 rounded-lg flex-1 cursor-pointer transition"
+          className="flex flex-col items-start flex-1 gap-2 p-6 transition rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 active:bg-gray-200 active:scale-95"
           onClick={() =>
             router.push(ROUTES.POST_OF(prevPost._raw.flattenedPath))
           }
@@ -33,7 +33,7 @@ export const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
       )}
       {hasNextPost && (
         <div
-          className="p-6 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 active:scale-95 flex flex-col items-end gap-2 rounded-lg flex-1 cursor-pointer transition"
+          className="flex flex-col items-end flex-1 gap-2 p-6 transition rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 active:bg-gray-200 active:scale-95"
           onClick={() =>
             router.push(ROUTES.POST_OF(nextPost._raw.flattenedPath))
           }

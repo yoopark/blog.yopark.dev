@@ -1,21 +1,25 @@
-import Script from 'next/script';
+import Giscus from '@giscus/react';
 
-export const Giscus = () => {
+export const GiscusComment = () => {
+  const repoUsername = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_USERNAME ?? '';
+  const repoName = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_NAME ?? '';
+  const repoId = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID ?? '';
+  const category = process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY ?? '';
+  const categoryId = process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY_ID ?? '';
+
   return (
-    <Script
-      src="https://giscus.app/client.js"
-      data-repo={process.env.NEXT_PUBLIC_GISCUS_DATA_REPO ?? ''}
-      data-repo-id={process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID ?? ''}
-      data-category={process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY ?? ''}
-      data-category-id={process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY_ID ?? ''}
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="preferred_color_scheme"
-      data-lang="ko"
-      crossOrigin="anonymous"
-    ></Script>
+    <Giscus
+      repo={`${repoUsername}/${repoName}`}
+      repoId={repoId}
+      category={category}
+      categoryId={categoryId}
+      mapping="pathname"
+      reactionsEnabled="1"
+      emitMetadata="0"
+      inputPosition="top"
+      theme="preferred_color_scheme"
+      lang="ko"
+      loading="lazy"
+    />
   );
 };

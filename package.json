@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@giscus/react": "^2.4.0",
     "@lyket/react": "^2.1.0",
     "@svgr/webpack": "^8.1.0",
     "clsx": "^2.1.0",
