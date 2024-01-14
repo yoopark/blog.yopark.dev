@@ -1,6 +1,8 @@
 import { Label } from '@/components/Label';
+import { ROUTES } from '@/constants/routes';
 import { Post } from '@contentlayer/generated';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 type PostHeaderProps = Pick<Post, 'title' | 'description' | 'date' | 'tags'>;
 
@@ -16,7 +18,9 @@ export const PostHeader = ({
         {tags !== undefined && (
           <div className="flex flex-wrap gap-1">
             {tags.map((tag) => (
-              <Label key={tag} text={tag} />
+              <Link key={tag} href={ROUTES.TAG_OF(tag)}>
+                <Label text={tag} />
+              </Link>
             ))}
           </div>
         )}
