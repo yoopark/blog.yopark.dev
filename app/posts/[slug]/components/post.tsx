@@ -1,15 +1,15 @@
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
 
-import { Post as PostType } from '@contentlayer/generated';
+import PostHeader from '@/app/posts/[slug]/components/post-header';
 
-import { PostHeader } from '@/app/posts/[slug]/components/post-header';
+import type { Post as PostType } from '@contentlayer/generated';
 
 type PostProps = {
   post: PostType;
 };
 
-const MDXNewTabAnchor = (
+const MdxNewTabAnchor = (
   props: React.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) => {
   if (props.className === 'anchor') {
@@ -18,6 +18,7 @@ const MDXNewTabAnchor = (
 
   return <a {...props} target="_blank" rel="noopener noreferrer" />;
 };
+
 export const Post = ({
   post: {
     body: { code },
@@ -40,7 +41,7 @@ export const Post = ({
         />
       </div>
       <article className="prose dark:prose-invert mx-auto">
-        <MDXContent components={{ a: MDXNewTabAnchor }} />
+        <MDXContent components={{ a: MdxNewTabAnchor }} />
       </article>
     </div>
   );

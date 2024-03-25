@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { FadeInFromLeft } from '@/components/framer-motion/fade-in-from-left';
-import { Label } from '@/components/label';
+import FadeInFromLeft from '@/components/framer-motion/fade-in-from-left';
+import Label from '@/components/label';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/cn';
 import { Post } from '@contentlayer/generated';
@@ -14,7 +14,7 @@ type PostSummaryListItemProps = {
   post: Post;
 };
 
-export const PostSummaryListItem = ({
+const PostSummaryListItem = ({
   post: {
     date,
     title,
@@ -61,3 +61,5 @@ export const PostSummaryListItem = ({
     </FadeInFromLeft>
   );
 };
+
+export default PostSummaryListItem;

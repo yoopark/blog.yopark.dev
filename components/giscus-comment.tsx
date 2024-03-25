@@ -1,6 +1,6 @@
 import Giscus from '@giscus/react';
 
-export const GiscusComment = () => {
+const GiscusComment = () => {
   const repoUsername = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_USERNAME ?? '';
   const repoName = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_NAME ?? '';
   const repoId = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID ?? '';
@@ -23,3 +23,5 @@ export const GiscusComment = () => {
     />
   );
 };
+
+export default GiscusComment;

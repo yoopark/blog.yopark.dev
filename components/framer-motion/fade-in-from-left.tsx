@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 
-export const FadeInFromLeft = ({ children }: React.PropsWithChildren) => {
+const FadeInFromLeft = ({ children }: React.PropsWithChildren) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: -50 }}
@@ -14,3 +14,5 @@ export const FadeInFromLeft = ({ children }: React.PropsWithChildren) => {
     </motion.div>
   );
 };
+
+export default FadeInFromLeft;

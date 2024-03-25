@@ -1,13 +1,13 @@
 import GithubLogo from '@/assets/images/icons/github-logo.svg';
 import LinkedInLogo from '@/assets/images/icons/linked-in-logo.svg';
-import { NewTabLink } from '@/components/new-tab-link';
+import NewTabLink from '@/components/new-tab-link';
 
 type SocialGroupProps = {
   githubUrl: string;
   linkedInUrl: string;
 };
 
-export const SocialGroup = ({ githubUrl, linkedInUrl }: SocialGroupProps) => {
+const SocialGroup = ({ githubUrl, linkedInUrl }: SocialGroupProps) => {
   return (
     <div className="flex gap-3">
       <NewTabLink href={githubUrl}>
@@ -19,3 +19,5 @@ export const SocialGroup = ({ githubUrl, linkedInUrl }: SocialGroupProps) => {
     </div>
   );
 };
+
+export default SocialGroup;

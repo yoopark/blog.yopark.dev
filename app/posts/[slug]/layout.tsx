@@ -1,9 +1,11 @@
 'use client';
 
-import { ScrollProgressBar } from '@/components/scroll-progress-bar';
+import { PropsWithChildren } from 'react';
+
+import ScrollProgressBar from '@/components/scroll-progress-bar';
 import { LyketProvider } from '@/providers/lyket-provider';
 
-const PostLayout = ({ children }: React.PropsWithChildren) => {
+const PostLayout = ({ children }: PropsWithChildren) => {
   return (
     <LyketProvider>
       <ScrollProgressBar />

@@ -1,12 +1,12 @@
 import { Post } from '@contentlayer/generated';
 
-import { PostSummaryListItem } from '@/app/components/post-summary/post-summary-list-item';
+import PostSummaryListItem from '@/app/components/post-summary/post-summary-list-item';
 
 type PostSummaryListProps = {
   posts: Post[];
 };
 
-export const PostSummaryList = ({ posts }: PostSummaryListProps) => {
+const PostSummaryList = ({ posts }: PostSummaryListProps) => {
   return (
     <div className="flex flex-col gap-2">
       {posts.map((post) => (
@@ -15,3 +15,5 @@ export const PostSummaryList = ({ posts }: PostSummaryListProps) => {
     </div>
   );
 };
+
+export default PostSummaryList;

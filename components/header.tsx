@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 import Hamburger from '@/assets/images/icons/hamburger.svg';
-import { NewTabLink } from '@/components/new-tab-link';
+import NewTabLink from '@/components/new-tab-link';
 import { ROUTES } from '@/constants/routes';
-import { getLatestPost } from '@/utils/contentlayer/get-latest-post';
+import { getLatestPost } from '@/utils/contentlayer';
 
-export const Header = () => {
+const Header = () => {
   const latestPost = getLatestPost();
 
   return (
@@ -42,3 +42,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

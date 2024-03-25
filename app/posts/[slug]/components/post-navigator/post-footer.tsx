@@ -2,10 +2,11 @@
 
 import { ClapButton } from '@lyket/react';
 
-import { Post } from '@/.contentlayer/generated';
-import { GiscusComment } from '@/components/giscus';
+import GiscusComment from '@/components/giscus-comment';
 
-import { PostNavigator } from '@/app/posts/[slug]/components/post-navigator';
+import PostNavigator from '@/app/posts/[slug]/components/post-navigator';
+
+import type { Post } from '@/.contentlayer/generated';
 
 type PostFooterProps = {
   post: Post;
@@ -13,7 +14,7 @@ type PostFooterProps = {
   nextPost: Post;
 };
 
-export const PostFooter = ({ post, prevPost, nextPost }: PostFooterProps) => {
+const PostFooter = ({ post, prevPost, nextPost }: PostFooterProps) => {
   return (
     <>
       <PostNavigator prevPost={prevPost} nextPost={nextPost} />
@@ -22,3 +23,5 @@ export const PostFooter = ({ post, prevPost, nextPost }: PostFooterProps) => {
     </>
   );
 };
+
+export default PostFooter;

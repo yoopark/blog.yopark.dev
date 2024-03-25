@@ -2,13 +2,14 @@ import { Metadata } from 'next';
 
 import { Post } from '@contentlayer/generated';
 
-export const getPostMetadata = (post: Post): Metadata => {
+const getPostMetadata = (post: Post): Metadata => {
   const {
     title,
     description,
     _raw: { flattenedPath },
     thumbnail = '/images/blue-gradient.jpeg',
   } = post;
+
   return {
     title,
     description,
@@ -21,3 +22,5 @@ export const getPostMetadata = (post: Post): Metadata => {
     },
   };
 };
+
+export { getPostMetadata };

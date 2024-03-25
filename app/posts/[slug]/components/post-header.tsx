@@ -1,18 +1,13 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-import { Label } from '@/components/label';
+import Label from '@/components/label';
 import { ROUTES } from '@/constants/routes';
 import { Post } from '@contentlayer/generated';
 
 type PostHeaderProps = Pick<Post, 'title' | 'description' | 'date' | 'tags'>;
 
-export const PostHeader = ({
-  title,
-  description,
-  date,
-  tags,
-}: PostHeaderProps) => {
+const PostHeader = ({ title, description, date, tags }: PostHeaderProps) => {
   return (
     <div className="py-4 flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -32,3 +27,5 @@ export const PostHeader = ({
     </div>
   );
 };
+
+export default PostHeader;

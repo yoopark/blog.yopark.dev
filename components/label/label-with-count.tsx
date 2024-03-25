@@ -9,7 +9,7 @@ type LabelWithCountProps = {
   onClick?: React.MouseEventHandler<HTMLSpanElement>;
 };
 
-export const LabelWithCount = ({
+const LabelWithCount = ({
   text,
   count,
   isSelected,
@@ -28,3 +28,5 @@ export const LabelWithCount = ({
     </span>
   );
 };
+
+export default LabelWithCount;

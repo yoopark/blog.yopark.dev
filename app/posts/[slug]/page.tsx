@@ -1,12 +1,14 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getPostBySlug } from '@/utils/contentlayer/get-post-by-slug';
-import { getPostWithAdjacentPostBySlug } from '@/utils/contentlayer/get-post-with-adjacent-post-by-slug';
 import { getPostMetadata } from '@/utils/get-post-metadata';
+import {
+  getPostBySlug,
+  getPostWithAdjacentPostBySlug,
+} from '@/utils/contentlayer';
 
 import { Post } from '@/app/posts/[slug]/components/post';
-import { PostFooter } from '@/app/posts/[slug]/components/post-navigator/post-footer';
+import PostFooter from '@/app/posts/[slug]/components/post-navigator/post-footer';
 
 type PostPageProps = {
   params: {
@@ -20,7 +22,7 @@ type GenerateMetadataProps = {
   };
 };
 
-export const generateMetadata = ({
+const generateMetadata = ({
   params: { slug },
 }: GenerateMetadataProps): Metadata => {
   const post = getPostBySlug(slug);
@@ -59,4 +61,5 @@ const PostPage = ({ params: { slug } }: PostPageProps) => {
   );
 };
 
+export { generateMetadata };
 export default PostPage;

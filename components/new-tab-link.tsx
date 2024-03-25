@@ -1,13 +1,16 @@
 import Link from 'next/link';
+import { PropsWithChildren } from 'react';
 
 type NewTabLinkProps = {
   href: string;
-} & React.PropsWithChildren;
+} & PropsWithChildren;
 
-export const NewTabLink = ({ href, children }: NewTabLinkProps) => {
+const NewTabLink = ({ href, children }: NewTabLinkProps) => {
   return (
     <Link href={href} target="_blank" rel="noreferrer noopener">
       {children}
     </Link>
   );
 };
+
+export default NewTabLink;

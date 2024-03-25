@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 import yoopaark_circle from '@/assets/images/yoopaark-circle.png';
-import { SocialGroup } from '@/components/social-group';
+import SocialGroup from '@/components/social-group';
 
 const year = new Date().getFullYear();
 
-export const Footer = () => {
+const Footer = () => {
   return (
     <footer className="bg-gray-100">
       <div className="max-w-screen-lg px-8 py-12 m-auto flex flex-col md:flex-row gap-10">
@@ -34,3 +34,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

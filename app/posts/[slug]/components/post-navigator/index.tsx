@@ -10,7 +10,7 @@ type PostNavigatorProps = {
   nextPost: Post | null;
 };
 
-export const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
+const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
   const router = useRouter();
   const hasPrevPost = prevPost !== null;
   const hasNextPost = nextPost !== null;
@@ -46,3 +46,5 @@ export const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
     </div>
   );
 };
+
+export default PostNavigator;
