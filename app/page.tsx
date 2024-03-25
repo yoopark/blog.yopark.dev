@@ -1,14 +1,16 @@
 'use client';
 
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import { allPosts } from '@/.contentlayer/generated';
-import { PostSummaryList } from '@/app/components/PostSummary/PostSummaryList';
 import forest from '@/assets/images/forest.jpeg';
 import { LabelWithCount } from '@/components/Label/LabelWithCount';
 import { ROUTES } from '@/constants/routes';
 import { getPostsByNewestByTag } from '@/utils/contentlayer/getPostsByNewestByTag';
 import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer/getTagCounterEntriesByHighestCount';
-import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+
+import { PostSummaryList } from '@/app/components/PostSummary/PostSummaryList';
 
 const HomePage = () => {
   const router = useRouter();

@@ -1,13 +1,14 @@
 'use client';
 
+import { format } from 'date-fns';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import { Label } from '@/components/Label';
 import { FadeInFromLeft } from '@/components/framer-motion/FadeInFromLeft';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/cn';
 import { Post } from '@contentlayer/generated';
-import { format } from 'date-fns';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 type PostSummaryListItemProps = {
   post: Post;
@@ -31,7 +32,7 @@ export const PostSummaryListItem = ({
         className={cn(
           'bg-gray-100/50 p-5 rounded-lg flex gap-8 transition cursor-pointer',
           'hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]',
-          'md:flex-row flex-col md:items-center'
+          'md:flex-row flex-col md:items-center',
         )}
         onClick={() => router.push(ROUTES.POST_OF(flattenedPath))}
       >

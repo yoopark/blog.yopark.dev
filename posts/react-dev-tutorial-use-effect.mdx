@@ -356,7 +356,7 @@ function TodoList({ todos, filter }) {
   // ✅ getFilteredTodos()가 비싸다면 useMemo를 사용합니다.
   const visibleTodos = useMemo(
     () => getFilteredTodos(todos, filter),
-    [todos, filter]
+    [todos, filter],
   );
   // ...
 }

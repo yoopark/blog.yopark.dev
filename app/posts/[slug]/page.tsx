@@ -1,10 +1,12 @@
-import { Post } from '@/app/posts/[slug]/components/Post';
-import { PostFooter } from '@/app/posts/[slug]/components/PostNavigator/PostFooter';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
 import { getPostBySlug } from '@/utils/contentlayer/getPostBySlug';
 import { getPostWithAdjacentPostBySlug } from '@/utils/contentlayer/getPostWithAdjacentPostBySlug';
 import { getPostMetadata } from '@/utils/getPostMetadata';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+
+import { Post } from '@/app/posts/[slug]/components/Post';
+import { PostFooter } from '@/app/posts/[slug]/components/PostNavigator/PostFooter';
 
 type PostPageProps = {
   params: {

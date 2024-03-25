@@ -1,8 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { Post } from '@/.contentlayer/generated';
 import { ROUTES } from '@/constants/routes';
-import { useRouter } from 'next/navigation';
 
 type PostNavigatorProps = {
   prevPost: Post | null;

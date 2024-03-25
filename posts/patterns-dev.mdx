@@ -281,7 +281,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
       switch (error.extensions.status) {
         case 401:
           return fromPromise(
-            getNewAccessToken(getRefreshToken() ?? '')
+            getNewAccessToken(getRefreshToken() ?? ''),
           ).flatMap((newAccessToken) => {
             operation.setContext({
               headers: {
@@ -353,11 +353,7 @@ function Todos({ data, fetchData }) {
   return (
     <section style={{ marginTop: '20px' }}>
       <button onClick={fetchData}>Refecth Data</button>
-      <ul>
-        {data?.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
-        ))}
-      </ul>
+      <ul>{data?.map((todo) => <Todo key={todo.id} todo={todo} />)}</ul>
     </section>
   );
 }
@@ -519,7 +515,7 @@ function getDialogLabelButtons(children: ReactNode) {
   const childrenArray = Children.toArray(children);
   return childrenArray
     .filter(
-      (child) => isValidElement(child) && child.type === DialogLabelButtonType
+      (child) => isValidElement(child) && child.type === DialogLabelButtonType,
     )
     .slice(0, 2);
 }
@@ -543,7 +539,7 @@ function DialogMain({ children, isOpen }: DialogMainProps) {
       {dialogContents && <div>{dialogContents}</div>}
       {dialogLabelButtons && <div>{dialogLabelButtons}</div>}
     </div>,
-    document.body
+    document.body,
   );
 }
 ```

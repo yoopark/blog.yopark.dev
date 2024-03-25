@@ -1,8 +1,9 @@
+import { format } from 'date-fns';
+import Link from 'next/link';
+
 import { Label } from '@/components/Label';
 import { ROUTES } from '@/constants/routes';
 import { Post } from '@contentlayer/generated';
-import { format } from 'date-fns';
-import Link from 'next/link';
 
 type PostHeaderProps = Pick<Post, 'title' | 'description' | 'date' | 'tags'>;
 

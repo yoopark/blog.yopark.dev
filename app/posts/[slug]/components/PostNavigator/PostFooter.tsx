@@ -1,9 +1,11 @@
 'use client';
 
-import { Post } from '@/.contentlayer/generated';
-import { PostNavigator } from '@/app/posts/[slug]/components/PostNavigator';
-import { GiscusComment } from '@/components/Giscus';
 import { ClapButton } from '@lyket/react';
+
+import { Post } from '@/.contentlayer/generated';
+import { GiscusComment } from '@/components/Giscus';
+
+import { PostNavigator } from '@/app/posts/[slug]/components/PostNavigator';
 
 type PostFooterProps = {
   post: Post;

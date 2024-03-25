@@ -269,7 +269,7 @@ const handleChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
   (e) => {
     setValue(e.currentTarget.value);
   },
-  [setValue]
+  [setValue],
 );
 ```
 
@@ -604,7 +604,7 @@ function handleToggleMyList(artworkId, nextSeen) {
       } else {
         return artwork;
       }
-    })
+    }),
   );
 }
 ```
