@@ -1,6 +1,6 @@
 import { Post } from '@contentlayer/generated';
 
-import { PostSummaryListItem } from '@/app/components/post-summary__tmp/post-summary-list-item__tmp';
+import { PostSummaryListItem } from '@/app/components/post-summary/post-summary-list-item';
 
 type PostSummaryListProps = {
   posts: Post[];

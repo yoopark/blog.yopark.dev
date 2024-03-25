@@ -1,4 +1,4 @@
-import { getAllPostsByNewest } from '@/utils/contentlayer/get-all-posts-by-newest__tmp';
+import { getAllPostsByNewest } from '@/utils/contentlayer/get-all-posts-by-newest';
 
 export const getPostsByNewestByTag = (tag: string | null) => {
   const allPosts = getAllPostsByNewest();

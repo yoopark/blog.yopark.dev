@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 import Hamburger from '@/assets/images/icons/hamburger.svg';
-import { NewTabLink } from '@/components/new-tab-link__tmp';
+import { NewTabLink } from '@/components/new-tab-link';
 import { ROUTES } from '@/constants/routes';
-import { getLatestPost } from '@/utils/contentlayer/get-latest-post__tmp';
+import { getLatestPost } from '@/utils/contentlayer/get-latest-post';
 
 export const Header = () => {
   const latestPost = getLatestPost();

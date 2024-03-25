@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import yoopaark_circle from '@/assets/images/yoopaark-circle.png';
-import { SocialGroup } from '@/components/social-group__tmp';
+import { SocialGroup } from '@/components/social-group';
 
 const year = new Date().getFullYear();
 

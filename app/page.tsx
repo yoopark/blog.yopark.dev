@@ -5,12 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
-import { LabelWithCount } from '@/components/label__tmp/label-with-counter__tmp';
+import { LabelWithCount } from '@/components/label/label-with-counter';
 import { ROUTES } from '@/constants/routes';
-import { getPostsByNewestByTag } from '@/utils/contentlayer/get-posts-by-newest-by-tag__tmp';
-import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer/get-tag-counter-entries-by-highest-count__tmp';
+import { getPostsByNewestByTag } from '@/utils/contentlayer/get-posts-by-newest-by-tag';
+import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer/get-tag-counter-entries-by-highest-count';
 
-import { PostSummaryList } from '@/app/components/post-summary__tmp/post-summary-list__tmp';
+import { PostSummaryList } from '@/app/components/post-summary/post-summary-list';
 
 const HomePage = () => {
   const router = useRouter();

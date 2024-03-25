@@ -1,6 +1,6 @@
 import GithubLogo from '@/assets/images/icons/github-logo.svg';
 import LinkedInLogo from '@/assets/images/icons/linked-in-logo.svg';
-import { NewTabLink } from '@/components/new-tab-link__tmp';
+import { NewTabLink } from '@/components/new-tab-link';
 
 type SocialGroupProps = {
   githubUrl: string;

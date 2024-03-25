@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { FadeInFromLeft } from '@/components/framer-motion/fade-in-from-left__tmp';
-import { Label } from '@/components/label__tmp';
+import { FadeInFromLeft } from '@/components/framer-motion/fade-in-from-left';
+import { Label } from '@/components/label';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/cn';
 import { Post } from '@contentlayer/generated';

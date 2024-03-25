@@ -3,9 +3,9 @@
 import { ClapButton } from '@lyket/react';
 
 import { Post } from '@/.contentlayer/generated';
-import { GiscusComment } from '@/components/giscus__tmp';
+import { GiscusComment } from '@/components/giscus';
 
-import { PostNavigator } from '@/app/posts/[slug]/components/post-navigator__tmp';
+import { PostNavigator } from '@/app/posts/[slug]/components/post-navigator';
 
 type PostFooterProps = {
   post: Post;
