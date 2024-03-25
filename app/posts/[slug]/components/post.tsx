@@ -40,7 +40,7 @@ export const Post = ({
           className="rounded-lg object-cover aspect-video w-full"
         />
       </div>
-      <article className="prose dark:prose-invert mx-auto">
+      <article className="prose mx-auto">
         <MDXContent components={{ a: MdxNewTabAnchor }} />
       </article>
     </div>

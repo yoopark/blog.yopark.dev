@@ -14,15 +14,17 @@
   ::-moz-selection {
     @apply bg-gray-100;
   }
+}
 
+@layer components {
   /* tailwind prose */
   .prose .anchor {
-    @apply invisible absolute no-underline ml-1.5 cursor-pointer text-lg;
+    @apply invisible absolute no-underline ml-2 cursor-pointer;
   }
 
   .prose .anchor:after {
     @apply text-gray-400 transition;
-    content: '⏎';
+    content: '#';
   }
 
   .prose .anchor:hover,
@@ -31,7 +33,7 @@
   }
 
   .prose .anchor:after:hover {
-    @apply text-green-400;
+    @apply text-green-500;
   }
 
   .prose h1,
@@ -48,7 +50,7 @@
   }
 
   .prose a {
-    @apply font-normal text-green-600 underline transition hover:text-green-600/70;
+    @apply font-normal text-green-600 underline transition hover:text-green-700;
   }
 
   .prose blockquote {
@@ -57,5 +59,9 @@
 
   .prose blockquote p {
     @apply before:content-none after:content-none;
+  }
+
+  .prose pre {
+    @apply max-w-screen-minus-px-4 overflow-x-auto;
   }
 }

@@ -24,7 +24,7 @@ const ReadRandomPost = () => {
     <a
       onClick={handleClick}
       className={cn(
-        'px-4 py-3 rounded-lg select-none',
+        'px-4 py-3 rounded-lg cursor-pointer select-none',
         'hover:bg-gray-200/50 transition active:bg-gray-300/50',
       )}
     >

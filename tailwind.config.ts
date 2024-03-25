@@ -6,7 +6,11 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        'screen-minus-px-4': 'calc(100vw - 32px)',
+      },
+    },
   },
   plugins: [require('@tailwindcss/typography')],
 };
