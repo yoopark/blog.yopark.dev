@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+import { Footer } from '@/components/footer__tmp';
+import { Header } from '@/components/header__tmp';
 import './globals.css';
 
 const pretendard = localFont({

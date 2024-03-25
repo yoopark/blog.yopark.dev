@@ -1,4 +1,4 @@
-import { getTagCounter } from '@/utils/contentlayer/getTagCounter';
+import { getTagCounter } from '@/utils/contentlayer/get-tag-counter__tmp';
 
 export const getTagCounterEntriesByHighestCount = () => {
   const counter = getTagCounter();

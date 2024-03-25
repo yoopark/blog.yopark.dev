@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { Post as PostType } from '@contentlayer/generated';
 
-import { PostHeader } from '@/app/posts/[slug]/components/PostHeader';
+import { PostHeader } from '@/app/posts/[slug]/components/post-header__tmp';
 
 type PostProps = {
   post: PostType;

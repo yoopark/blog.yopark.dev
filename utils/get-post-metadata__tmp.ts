@@ -1,5 +1,6 @@
-import { Post } from '@contentlayer/generated';
 import { Metadata } from 'next';
+
+import { Post } from '@contentlayer/generated';
 
 export const getPostMetadata = (post: Post): Metadata => {
   const {

@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-import { Label } from '@/components/Label';
+import { Label } from '@/components/label__tmp';
 import { ROUTES } from '@/constants/routes';
 import { Post } from '@contentlayer/generated';
 
