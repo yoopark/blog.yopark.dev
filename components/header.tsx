@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Hamburger from '@/assets/images/icons/hamburger.svg';
 import NewTabLink from '@/components/new-tab-link';
 import { ROUTES } from '@/constants/routes';
+import { cn } from '@/utils/cn';
 import { getLatestPost } from '@/utils/contentlayer';
 
 const Header = () => {
@@ -20,20 +21,37 @@ const Header = () => {
           </h1>
         </div>
         <div className="hidden md:flex w-full justify-between items-center">
-          <h1 className="font-bold text-2xl transition py-2 px-4 rounded-lg hover:bg-green-100/50 active:bg-green-200/50 active:scale-95">
-            <Link href={ROUTES.ROOT}>🌱 Yopark Devlog</Link>
-          </h1>
+          <Link
+            href={ROUTES.ROOT}
+            className="px-4 py-2 rounded-lg hover:bg-green-100/50 active:bg-green-200/50 active:scale-[.98] transition"
+          >
+            <h1 className="font-bold text-2xl select-none">🌱 Yopark Devlog</h1>
+          </Link>
           <nav>
             <ul className="flex gap-2">
               {latestPost !== null && (
-                <li className="px-3 py-2 rounded-lg hover:bg-gray-100 transition active:bg-gray-200 active:scale-95 select-none">
-                  <Link href={ROUTES.POST_OF(latestPost._raw.flattenedPath)}>
+                <li>
+                  <Link
+                    href={ROUTES.POST_OF(latestPost._raw.flattenedPath)}
+                    className={cn(
+                      'px-4 py-3 rounded-lg select-none',
+                      'hover:bg-gray-200/50 transition active:bg-gray-300/50',
+                    )}
+                  >
                     최신 글 읽기 📝
                   </Link>
                 </li>
               )}
-              <li className="px-3 py-2 rounded-lg hover:bg-gray-100 transition active:bg-gray-200 active:scale-95 select-none">
-                <NewTabLink href="https://yopark.dev">About Me ✌️</NewTabLink>
+              <li>
+                <NewTabLink
+                  href="https://yopark.dev"
+                  className={cn(
+                    'px-4 py-3 rounded-lg select-none',
+                    'hover:bg-gray-200/50 transition active:bg-gray-300/50',
+                  )}
+                >
+                  About Me ✌️
+                </NewTabLink>
               </li>
             </ul>
           </nav>

@@ -30,8 +30,8 @@ const PostSummaryListItem = ({
     <FadeInFromLeft>
       <div
         className={cn(
-          'bg-gray-100/50 p-5 rounded-lg flex gap-6 transition cursor-pointer',
-          'hover:bg-gray-100 active:bg-gray-200 active:scale-[.99]',
+          'bg-gray-100/50 p-5 rounded-lg flex gap-6 select-none cursor-pointer',
+          'transition hover:bg-gray-100 active:bg-gray-200 active:scale-[.99]',
           'group',
           'md:flex-row flex-col md:items-center',
         )}
@@ -59,7 +59,12 @@ const PostSummaryListItem = ({
           {tags !== undefined && (
             <div className="flex flex-wrap gap-1">
               {tags.map((tag) => (
-                <Label key={tag} text={tag} />
+                <Label
+                  key={tag}
+                  text={tag}
+                  variant="darker"
+                  isClickable={false}
+                />
               ))}
             </div>
           )}

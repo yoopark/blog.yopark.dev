@@ -26,7 +26,7 @@ const HomePage = () => {
       <Image
         src={forest}
         alt="forest"
-        className="object-cover w-full h-80"
+        className="object-cover w-full h-80 select-none"
         placeholder="blur"
       />
       <div className="max-w-screen-lg px-4 m-auto w-full">

@@ -12,7 +12,7 @@ const Footer = () => {
         <Image
           width={200}
           height={200}
-          className="w-20 h-20"
+          className="w-20 h-20 select-none"
           src={yoopaark_circle}
           alt="yoopaark"
         />

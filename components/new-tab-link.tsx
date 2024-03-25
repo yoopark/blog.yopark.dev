@@ -3,14 +3,11 @@ import { PropsWithChildren } from 'react';
 
 type NewTabLinkProps = {
   href: string;
+  className?: string;
 } & PropsWithChildren;
 
-const NewTabLink = ({ href, children }: NewTabLinkProps) => {
-  return (
-    <Link href={href} target="_blank" rel="noreferrer noopener">
-      {children}
-    </Link>
-  );
+const NewTabLink = (props: NewTabLinkProps) => {
+  return <Link target="_blank" rel="noreferrer noopener" {...props} />;
 };
 
 export default NewTabLink;
