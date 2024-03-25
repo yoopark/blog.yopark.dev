@@ -1,12 +1,10 @@
 import { Provider } from '@lyket/react';
 import { PropsWithChildren } from 'react';
 
+import { getOrThrow } from '@/utils/env';
+
 export const LyketProvider = ({ children }: PropsWithChildren) => {
-  const lyketApiKey = process.env.NEXT_PUBLIC_LYKET_API_KEY;
+  const apiKey = getOrThrow(process.env.NEXT_PUBLIC_LYKET_API_KEY);
 
-  if (lyketApiKey === undefined) {
-    throw new Error('NEXT_PUBLIC_LYKET_API_KEY is not defined');
-  }
-
-  return <Provider apiKey={lyketApiKey}>{children}</Provider>;
+  return <Provider apiKey={apiKey}>{children}</Provider>;
 };

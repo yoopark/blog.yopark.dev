@@ -1,15 +1,24 @@
 import Giscus from '@giscus/react';
 
+import type { GiscusRepoType } from '@/types/giscus';
+import { getOrThrow } from '@/utils/env';
+
 const GiscusComment = () => {
-  const repoUsername = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_USERNAME ?? '';
-  const repoName = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_NAME ?? '';
-  const repoId = process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID ?? '';
-  const category = process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY ?? '';
-  const categoryId = process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY_ID ?? '';
+  const repoUsername = getOrThrow(
+    process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_USERNAME,
+  );
+  const repoName = getOrThrow(process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_NAME);
+  const repoId = getOrThrow(process.env.NEXT_PUBLIC_GISCUS_DATA_REPO_ID);
+  const category = getOrThrow(process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY);
+  const categoryId = getOrThrow(
+    process.env.NEXT_PUBLIC_GISCUS_DATA_CATEGORY_ID,
+  );
+
+  const repo: GiscusRepoType = `${repoUsername}/${repoName}`;
 
   return (
     <Giscus
-      repo={`${repoUsername}/${repoName}`}
+      repo={repo}
       repoId={repoId}
       category={category}
       categoryId={categoryId}
