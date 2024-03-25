@@ -10,6 +10,14 @@ const getLatestPost = () => {
   return allPosts.length > 0 ? allPosts[0] : null;
 };
 
+const getRandomPost = () => {
+  if (allPosts.length === 0) {
+    return null;
+  }
+
+  return allPosts[Math.floor(Math.random() * allPosts.length)];
+};
+
 const getPostBySlug = (slug: string) => {
   return allPosts.find((post) => post._raw.flattenedPath === slug);
 };
@@ -66,6 +74,7 @@ export {
   getPostBySlug,
   getPostWithAdjacentPostBySlug,
   getPostsByNewestByTag,
+  getRandomPost,
   getTagCounter,
   getTagCounterEntriesByHighestCount,
 };

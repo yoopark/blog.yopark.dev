@@ -1,7 +1,9 @@
 import Link from 'next/link';
 
+import { allPosts } from '@/.contentlayer/generated';
 import Hamburger from '@/assets/images/icons/hamburger.svg';
 import NewTabLink from '@/components/new-tab-link';
+import ReadRandomPost from '@/components/read-random-post';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/cn';
 import { getLatestPost } from '@/utils/contentlayer';
@@ -28,7 +30,12 @@ const Header = () => {
             <h1 className="font-bold text-2xl select-none">🌱 Yopark Devlog</h1>
           </Link>
           <nav>
-            <ul className="flex gap-2">
+            <ul className="flex gap-1">
+              {allPosts.length !== 0 && (
+                <li>
+                  <ReadRandomPost />
+                </li>
+              )}
               {latestPost !== null && (
                 <li>
                   <Link
