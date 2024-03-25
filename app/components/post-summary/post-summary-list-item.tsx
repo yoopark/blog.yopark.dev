@@ -30,20 +30,27 @@ const PostSummaryListItem = ({
     <FadeInFromLeft>
       <div
         className={cn(
-          'bg-gray-100/50 p-5 rounded-lg flex gap-8 transition cursor-pointer',
-          'hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]',
+          'bg-gray-100/50 p-5 rounded-lg flex gap-6 transition cursor-pointer',
+          'hover:bg-gray-100 active:bg-gray-200 active:scale-[.99]',
+          'group',
           'md:flex-row flex-col md:items-center',
         )}
         onClick={() => router.push(ROUTES.POST_OF(flattenedPath))}
       >
-        <Image
-          src={thumbnail}
-          alt={title}
-          className="object-cover w-full aspect-video md:w-52 rounded-lg"
-          width={1000}
-          height={1000}
-        />
-        <div className="flex flex-col gap-4">
+        <div className="relative aspect-video overflow-hidden rounded-lg md:w-60">
+          <Image
+            src={thumbnail}
+            alt={title}
+            className={cn(
+              'absolute w-full h-full',
+              'object-cover',
+              'group-hover:scale-110 transition-transform duration-700',
+            )}
+            width={1000}
+            height={1000}
+          />
+        </div>
+        <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <p className="text-sm">{format(date, 'yyyy. MM. dd.')}</p>
             <h3 className="text-xl font-bold">{title}</h3>
