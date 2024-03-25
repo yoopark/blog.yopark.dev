@@ -6,7 +6,7 @@ import { Header } from '@/components/Header';
 import './globals.css';
 
 const pretendard = localFont({
-  src: '../public/fonts/PretendardVariable.woff2',
+  src: '../public/fonts/WantedSansVariable.woff2',
 });
 
 export const metadata: Metadata = {
