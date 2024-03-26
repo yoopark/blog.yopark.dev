@@ -1,4 +1,5 @@
 import { allPosts } from '@/.contentlayer/generated';
+import { flatten } from '@/utils/string';
 
 const getAllPostsByNewest = () => {
   return allPosts.sort((a, b) => b.date.localeCompare(a.date));
@@ -34,12 +35,8 @@ const getPostWithAdjacentPostBySlug = (slug: string) => {
   return { post, prevPost, nextPost };
 };
 
-const getPostsByNewestByTag = (tag: string | null) => {
+const getPostsByNewestByTag = (tag: string) => {
   const allPosts = getAllPostsByNewest();
-
-  if (tag === null) {
-    return allPosts;
-  }
 
   return allPosts.filter((post) => post.tags && post.tags.includes(tag));
 };
@@ -68,8 +65,28 @@ const getTagCounterEntriesByHighestCount = () => {
   return entries;
 };
 
+const getAllTags = () => {
+  const tags = new Set<string>();
+
+  allPosts.forEach((post) => {
+    post.tags?.forEach((tag) => {
+      tags.add(tag);
+    });
+  });
+
+  return Array.from(tags);
+};
+
+const findTagByFlattenedTag = (flattenedTag: string) => {
+  const allTags = getAllTags();
+
+  return allTags.find((tag) => flatten(tag) === flattenedTag) ?? null;
+};
+
 export {
+  findTagByFlattenedTag,
   getAllPostsByNewest,
+  getAllTags,
   getLatestPost,
   getPostBySlug,
   getPostWithAdjacentPostBySlug,

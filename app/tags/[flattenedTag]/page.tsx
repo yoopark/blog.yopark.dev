@@ -1,16 +1,35 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
 import LabelWithCount from '@/components/label/label-with-count';
 import { ROUTES } from '@/constants/routes';
-import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
+import {
+  findTagByFlattenedTag,
+  getPostsByNewestByTag,
+  getTagCounterEntriesByHighestCount,
+} from '@/utils/contentlayer';
 import { flatten } from '@/utils/string';
 
 import PostSummaryList from '@/app/components/post-summary/post-summary-list';
 
-const HomePage = () => {
+type TagPageProps = {
+  params: {
+    flattenedTag: string;
+  };
+};
+
+/* FIXME: TagPage와 HomePage의 디자인이 동일합니다. */
+const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
+  const originalTag = findTagByFlattenedTag(decodeURI(flattenedTag));
+
+  if (originalTag === null) {
+    return redirect(ROUTES.ROOT);
+  }
+
+  const posts = getPostsByNewestByTag(originalTag);
   const tagCounterEntries = getTagCounterEntriesByHighestCount();
 
   return (
@@ -31,15 +50,18 @@ const HomePage = () => {
           {tagCounterEntries.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <Link href={ROUTES.ROOT}>
-                <LabelWithCount text="All" count={allPosts.length} isSelected />
+                <LabelWithCount
+                  text="All"
+                  count={allPosts.length}
+                  isSelected={false}
+                />
               </Link>
               {tagCounterEntries.map(([tag, count]) => (
                 <Link href={ROUTES.TAG_OF(flatten(tag))} key={tag}>
                   <LabelWithCount
-                    key={tag}
                     text={tag}
                     count={count}
-                    isSelected={false}
+                    isSelected={tag === originalTag}
                   />
                 </Link>
               ))}
@@ -47,9 +69,9 @@ const HomePage = () => {
           )}
           <div className="flex flex-col gap-4">
             <h2 className="font-bold text-2xl">
-              All Posts ({allPosts.length})
+              {originalTag} ({posts.length})
             </h2>
-            <PostSummaryList posts={allPosts} />
+            <PostSummaryList posts={posts} />
           </div>
         </div>
       </div>
@@ -57,4 +79,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TagPage;
