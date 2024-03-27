@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import Badge from '@/components/badge';
 import FadeInFromLeft from '@/components/framer-motion/fade-in-from-left';
-import Label from '@/components/label';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/tailwind';
 import { Post } from '@contentlayer/generated';
@@ -59,9 +59,9 @@ const PostSummaryListItem = ({
           {tags !== undefined && (
             <div className="flex flex-wrap gap-1">
               {tags.map((tag) => (
-                <Label key={tag} variant="darker">
+                <Badge key={tag} variant="darker">
                   {tag}
-                </Label>
+                </Badge>
               ))}
             </div>
           )}

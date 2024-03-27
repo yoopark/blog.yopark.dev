@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { allPosts } from '@/.contentlayer/generated';
-import { labelVariants } from '@/components/label';
+import { badgeVariants } from '@/components/badge';
 import { ROUTES } from '@/constants/routes';
 import {
   findTagByFlattenedTag,
@@ -37,7 +37,7 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
             <div className="flex flex-wrap gap-2 mt-6">
               <Link
                 href={ROUTES.ROOT}
-                className={labelVariants({ size: 'lg', isClickable: true })}
+                className={badgeVariants({ size: 'lg', isClickable: true })}
               >
                 All ({String(allPosts.length)})
               </Link>
@@ -45,7 +45,7 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
                 <Link
                   href={ROUTES.TAG_OF(tag)}
                   key={tag}
-                  className={labelVariants({
+                  className={badgeVariants({
                     size: 'lg',
                     isClickable: true,
                     isSelected: tag === originalTag,

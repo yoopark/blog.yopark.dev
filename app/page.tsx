@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
-import { labelVariants } from '@/components/label';
+import { badgeVariants } from '@/components/badge';
 import { ROUTES } from '@/constants/routes';
 import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
 
@@ -31,7 +31,7 @@ const HomePage = () => {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={ROUTES.ROOT}
-                className={labelVariants({
+                className={badgeVariants({
                   size: 'lg',
                   isClickable: true,
                   isSelected: true,
@@ -43,7 +43,7 @@ const HomePage = () => {
                 <Link
                   href={ROUTES.TAG_OF(tag)}
                   key={tag}
-                  className={labelVariants({ size: 'lg', isClickable: true })}
+                  className={badgeVariants({ size: 'lg', isClickable: true })}
                 >
                   {tag} ({String(count)})
                 </Link>

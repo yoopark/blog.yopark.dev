@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-import Label from '@/components/label';
+import { badgeVariants } from '@/components/badge';
 import { ROUTES } from '@/constants/routes';
 import { Post } from '@contentlayer/generated';
 
@@ -15,8 +15,12 @@ const PostHeader = ({ title, description, date, tags }: PostHeaderProps) => {
           {tags !== undefined && (
             <div className="flex flex-wrap gap-1">
               {tags.map((tag) => (
-                <Link key={tag} href={ROUTES.TAG_OF(tag)}>
-                  <Label isClickable>{tag}</Label>
+                <Link
+                  key={tag}
+                  href={ROUTES.TAG_OF(tag)}
+                  className={badgeVariants({ isClickable: true })}
+                >
+                  {tag}
                 </Link>
               ))}
             </div>

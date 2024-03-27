@@ -3,7 +3,7 @@ import { HTMLAttributes } from 'react';
 
 import { cn } from '@/utils/tailwind';
 
-const labelVariants = cva('select-none', {
+const badgeVariants = cva('select-none', {
   variants: {
     size: {
       sm: 'px-2 py-0.5 rounded-2xl text-xs',
@@ -28,14 +28,14 @@ const labelVariants = cva('select-none', {
   },
 });
 
-type LabelProps = HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof labelVariants>;
+type BadgeProps = HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof badgeVariants>;
 
-const Label = ({ className, variant, ...props }: LabelProps) => {
+const Badge = ({ className, variant, ...props }: BadgeProps) => {
   return (
-    <div className={cn(labelVariants({ variant }), className)} {...props} />
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
   );
 };
 
-export { labelVariants };
-export default Label;
+export { badgeVariants };
+export default Badge;
