@@ -7,7 +7,7 @@ import { badgeVariants } from '@/components/badge';
 import { ROUTES } from '@/constants/routes';
 import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
 
-import PostSummaryList from '@/app/components/post-summary/post-summary-list';
+import PostSummaryList from '@/app/_components/post-summary/post-summary-list';
 
 const HomePage = () => {
   const tagCounterEntries = getTagCounterEntriesByHighestCount();

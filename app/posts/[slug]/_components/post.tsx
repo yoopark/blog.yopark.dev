@@ -1,7 +1,7 @@
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
 
-import PostHeader from '@/app/posts/[slug]/components/post-header';
+import PostHeader from '@/app/posts/[slug]/_components/post-header';
 
 import type { Post as PostType } from '@contentlayer/generated';
 

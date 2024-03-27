@@ -10,7 +10,7 @@ import {
   getTagCounterEntriesByHighestCount,
 } from '@/utils/contentlayer';
 
-import PostSummaryList from '@/app/components/post-summary/post-summary-list';
+import PostSummaryList from '@/app/_components/post-summary/post-summary-list';
 
 type TagPageProps = {
   params: {

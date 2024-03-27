@@ -4,7 +4,7 @@ import { ClapButton } from '@lyket/react';
 
 import GiscusComment from '@/components/giscus-comment';
 
-import PostNavigator from '@/app/posts/[slug]/components/post-navigator';
+import PostNavigator from '@/app/posts/[slug]/_components/post-navigator';
 
 import type { Post } from '@/.contentlayer/generated';
 
