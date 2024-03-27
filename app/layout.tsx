@@ -6,7 +6,7 @@ import Footer from '@/components/footer';
 import Header from '@/components/header';
 import './globals.css';
 
-const pretendard = localFont({
+const wantedSans = localFont({
   src: '../public/fonts/WantedSansVariable.woff2',
 });
 
@@ -26,7 +26,7 @@ const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko-KR">
-      <body className={pretendard.className}>
+      <body className={wantedSans.className}>
         <Header />
         <main className="mt-20 mb-20">{children}</main>
         <Footer />
@@ -35,4 +35,5 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   );
 };
 
+export { metadata };
 export default RootLayout;

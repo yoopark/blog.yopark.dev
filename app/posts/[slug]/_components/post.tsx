@@ -1,5 +1,6 @@
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
+import { AnchorHTMLAttributes } from 'react';
 
 import PostHeader from '@/app/posts/[slug]/_components/post-header';
 
@@ -9,9 +10,7 @@ type PostProps = {
   post: PostType;
 };
 
-const MdxNewTabAnchor = (
-  props: React.AnchorHTMLAttributes<HTMLAnchorElement>,
-) => {
+const MdxNewTabAnchor = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
   if (props.className === 'anchor') {
     return <a {...props} />;
   }

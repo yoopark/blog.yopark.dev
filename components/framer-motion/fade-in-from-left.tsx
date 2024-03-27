@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { PropsWithChildren } from 'react';
 
-const FadeInFromLeft = ({ children }: React.PropsWithChildren) => {
+const FadeInFromLeft = ({ children }: PropsWithChildren) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: -50 }}
