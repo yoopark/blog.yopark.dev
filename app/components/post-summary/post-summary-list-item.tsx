@@ -59,12 +59,9 @@ const PostSummaryListItem = ({
           {tags !== undefined && (
             <div className="flex flex-wrap gap-1">
               {tags.map((tag) => (
-                <Label
-                  key={tag}
-                  text={tag}
-                  variant="darker"
-                  isClickable={false}
-                />
+                <Label key={tag} variant="darker">
+                  {tag}
+                </Label>
               ))}
             </div>
           )}

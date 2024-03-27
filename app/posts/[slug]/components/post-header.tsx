@@ -16,7 +16,7 @@ const PostHeader = ({ title, description, date, tags }: PostHeaderProps) => {
             <div className="flex flex-wrap gap-1">
               {tags.map((tag) => (
                 <Link key={tag} href={ROUTES.TAG_OF(tag)}>
-                  <Label text={tag} />
+                  <Label isClickable>{tag}</Label>
                 </Link>
               ))}
             </div>

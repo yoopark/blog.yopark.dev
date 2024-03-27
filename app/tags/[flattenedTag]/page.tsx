@@ -4,14 +4,13 @@ import { redirect } from 'next/navigation';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
-import LabelWithCount from '@/components/label/label-with-count';
 import { ROUTES } from '@/constants/routes';
 import {
   findTagByFlattenedTag,
   getPostsByNewestByTag,
   getTagCounterEntriesByHighestCount,
 } from '@/utils/contentlayer';
-import { flatten } from '@/utils/string';
+import Label from '@/components/label';
 
 import PostSummaryList from '@/app/components/post-summary/post-summary-list';
 
@@ -50,19 +49,15 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
           {tagCounterEntries.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <Link href={ROUTES.ROOT}>
-                <LabelWithCount
-                  text="All"
-                  count={allPosts.length}
-                  isSelected={false}
-                />
+                <Label size="lg" isClickable>
+                  All ({String(allPosts.length)})
+                </Label>
               </Link>
               {tagCounterEntries.map(([tag, count]) => (
-                <Link href={ROUTES.TAG_OF(flatten(tag))} key={tag}>
-                  <LabelWithCount
-                    text={tag}
-                    count={count}
-                    isSelected={tag === originalTag}
-                  />
+                <Link href={ROUTES.TAG_OF(tag)} key={tag}>
+                  <Label size="lg" isClickable isSelected={tag === originalTag}>
+                    {tag} ({String(count)})
+                  </Label>
                 </Link>
               ))}
             </div>

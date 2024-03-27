@@ -3,10 +3,9 @@ import Link from 'next/link';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
-import LabelWithCount from '@/components/label/label-with-count';
 import { ROUTES } from '@/constants/routes';
 import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
-import { flatten } from '@/utils/string';
+import Label from '@/components/label';
 
 import PostSummaryList from '@/app/components/post-summary/post-summary-list';
 
@@ -31,16 +30,15 @@ const HomePage = () => {
           {tagCounterEntries.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <Link href={ROUTES.ROOT}>
-                <LabelWithCount text="All" count={allPosts.length} isSelected />
+                <Label size="lg" isClickable isSelected>
+                  All ({String(allPosts.length)})
+                </Label>
               </Link>
               {tagCounterEntries.map(([tag, count]) => (
-                <Link href={ROUTES.TAG_OF(flatten(tag))} key={tag}>
-                  <LabelWithCount
-                    key={tag}
-                    text={tag}
-                    count={count}
-                    isSelected={false}
-                  />
+                <Link href={ROUTES.TAG_OF(tag)} key={tag}>
+                  <Label size="lg" isClickable>
+                    {tag} ({String(count)})
+                  </Label>
                 </Link>
               ))}
             </div>
