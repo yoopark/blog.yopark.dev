@@ -9,7 +9,7 @@ import IntroductionParagraph from '@/app/_components/introduction-paragrpah';
 import PostSummaryList from '@/app/_components/post-summary-list';
 import TagBadgeList from '@/app/_components/tag-badge-list';
 
-const HomePage = () => {
+const RootPage = () => {
   return (
     <div className="flex flex-col gap-10">
       <BannerImage src={forest} alt="forest" />
@@ -46,4 +46,4 @@ const tagBadgeList: TagBadgeType[] = [
   })),
 ];
 
-export default HomePage;
+export default RootPage;

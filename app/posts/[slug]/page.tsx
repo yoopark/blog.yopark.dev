@@ -8,7 +8,7 @@ import {
 import { getPostMetadata } from '@/utils/get-post-metadata';
 
 import { Post } from '@/app/posts/[slug]/_components/post';
-import PostFooter from '@/app/posts/[slug]/_components/post-navigator/post-footer';
+import PostFooter from '@/app/posts/[slug]/_components/post-footer';
 
 type PostPageProps = {
   params: {
