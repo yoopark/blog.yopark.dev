@@ -16,6 +16,7 @@
     "@giscus/react": "^2.4.0",
     "@lyket/react": "^2.1.0",
     "@svgr/webpack": "^8.1.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "contentlayer": "^0.3.4",
     "date-fns": "^3.2.0",
