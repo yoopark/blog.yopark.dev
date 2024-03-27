@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { Post } from '@/.contentlayer/generated';
 import { ROUTES } from '@/constants/routes';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils/tailwind';
 
 type PostNavigatorProps = {
   prevPost: Post | null;

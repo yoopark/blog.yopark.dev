@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import FadeInFromLeft from '@/components/framer-motion/fade-in-from-left';
 import Label from '@/components/label';
 import { ROUTES } from '@/constants/routes';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils/tailwind';
 import { Post } from '@contentlayer/generated';
 
 type PostSummaryListItemProps = {

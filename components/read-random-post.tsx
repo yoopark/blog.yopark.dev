@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/constants/routes';
-import { cn } from '@/utils/cn';
 import { getRandomPost } from '@/utils/contentlayer';
+import { cn } from '@/utils/tailwind';
 
 /* FIXME: 뷰와 로직이 분리되지 않은 코드입니다 */
 const ReadRandomPost = () => {

@@ -5,8 +5,8 @@ import Hamburger from '@/assets/images/icons/hamburger.svg';
 import NewTabLink from '@/components/new-tab-link';
 import ReadRandomPost from '@/components/read-random-post';
 import { ROUTES } from '@/constants/routes';
-import { cn } from '@/utils/cn';
 import { getLatestPost } from '@/utils/contentlayer';
+import { cn } from '@/utils/tailwind';
 
 const Header = () => {
   const latestPost = getLatestPost();

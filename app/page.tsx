@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 import { allPosts } from '@/.contentlayer/generated';
 import forest from '@/assets/images/forest.jpeg';
+import { labelVariants } from '@/components/label';
 import { ROUTES } from '@/constants/routes';
 import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
-import Label from '@/components/label';
 
 import PostSummaryList from '@/app/components/post-summary/post-summary-list';
 
@@ -29,16 +29,23 @@ const HomePage = () => {
           </div>
           {tagCounterEntries.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              <Link href={ROUTES.ROOT}>
-                <Label size="lg" isClickable isSelected>
-                  All ({String(allPosts.length)})
-                </Label>
+              <Link
+                href={ROUTES.ROOT}
+                className={labelVariants({
+                  size: 'lg',
+                  isClickable: true,
+                  isSelected: true,
+                })}
+              >
+                All ({String(allPosts.length)})
               </Link>
               {tagCounterEntries.map(([tag, count]) => (
-                <Link href={ROUTES.TAG_OF(tag)} key={tag}>
-                  <Label size="lg" isClickable>
-                    {tag} ({String(count)})
-                  </Label>
+                <Link
+                  href={ROUTES.TAG_OF(tag)}
+                  key={tag}
+                  className={labelVariants({ size: 'lg', isClickable: true })}
+                >
+                  {tag} ({String(count)})
                 </Link>
               ))}
             </div>
