@@ -28,7 +28,6 @@ const GiscusComment = () => {
       inputPosition="top"
       theme="preferred_color_scheme"
       lang="ko"
-      loading="lazy"
     />
   );
 };
