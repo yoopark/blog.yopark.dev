@@ -2,7 +2,10 @@
 const nextConfig = {
   webpack: config => {
     config.module.rules.push(svgrConfig);
-    config.plugins.push(new VeliteWebpackPlugin());
+
+    if (config.mode === 'development') {
+      config.plugins.push(new VeliteWebpackPlugin());
+    }
 
     return config;
   }
