@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/constants/routes';
-import { getRandomPost } from '@/utils/contentlayer';
 import { cn } from '@/utils/tailwind';
+import { getRandomPost } from '@/utils/velite';
 
 /* FIXME: 뷰와 로직이 분리되지 않은 코드입니다 */
 const ReadRandomPost = () => {
@@ -17,7 +17,7 @@ const ReadRandomPost = () => {
       throw new Error('unreachable code block: randomPost is null');
     }
 
-    router.push(ROUTES.POST_OF(randomPost._raw.flattenedPath));
+    router.push(ROUTES.POST_OF(randomPost.slug));
   };
 
   return (

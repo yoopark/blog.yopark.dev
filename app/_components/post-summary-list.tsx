@@ -1,4 +1,4 @@
-import { type Post } from '@contentlayer/generated';
+import { type Post } from '#velite';
 
 import PostSummaryListItem from '@/app/_components/post-summary-list-item';
 
@@ -10,7 +10,7 @@ const PostSummaryList = ({ posts }: PostSummaryListProps) => {
   return (
     <div className="flex flex-col gap-2">
       {posts.map((post) => (
-        <PostSummaryListItem key={post._raw.flattenedPath} post={post} />
+        <PostSummaryListItem key={post.slug} post={post} />
       ))}
     </div>
   );

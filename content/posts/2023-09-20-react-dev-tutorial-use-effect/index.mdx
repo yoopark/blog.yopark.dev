@@ -1,8 +1,9 @@
 ---
 title: react.dev 튜토리얼 메모 useEffect 파트
+slug: react-dev-tutorial-use-effect
 date: 2023-09-20
 description: useEffect가 특히 중요하여 별도로 제작합니다 😊
-thumbnail: /images/posts/react-dev-tutorial-use-effect/intro.png
+cover: intro.png
 tags:
   - React
 ---
@@ -27,7 +28,7 @@ tags:
 1. 같은 입력이 주어졌다면, 같은 결과를 반환한다. (외부 변수를 사용하면 안 된다)
 2. 함수가 호출되기 전에 존재했던 객체나 변수를 변경하지 않는다. (외부 변수를 변경하면 안 된다)
 
-![why does react care about purity](/images/posts/react-dev-tutorial-use-effect/why-does-react-care-about-purity-capture.png)
+![why does react care about purity](why-does-react-care-about-purity-capture.png)
 
 즉, 외부의 상태를 변경해야 하기 때문에 순수하진 않지만, 사용자의 행위로 트리거되는 것이 아니라 그저 렌더링되기 때문에 트리거되어야 하는 행위를 **Effect**라고 한다. 프로그래밍 개념 Side effect (부수 효과)를 React에서는 Effect라고 부른다.
 
@@ -312,9 +313,9 @@ function useData(url) {
 }
 ```
 
-![Resolve fetch in useEffect 캡처 1](/images/posts/react-dev-tutorial-use-effect/resolve-fetch-in-use-effect-1.png)
+![Resolve fetch in useEffect 캡처 1](resolve-fetch-in-use-effect-1.png)
 
-![Resolve fetch in useEffect 캡처 2](/images/posts/react-dev-tutorial-use-effect/resolve-fetch-in-use-effect-2.png)
+![Resolve fetch in useEffect 캡처 2](resolve-fetch-in-use-effect-2.png)
 
 # Effect가 필요하지 않은 경우
 

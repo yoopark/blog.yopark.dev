@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { type Post } from '@contentlayer/generated';
+import { type Post } from '#velite';
 import { format } from 'date-fns';
 
+import blue_gradient from '@/assets/images/blue-gradient.jpeg';
 import Badge from '@/components/badge';
 import FadeInFromLeft from '@/components/framer-motion/fade-in-from-left';
 import { ROUTES } from '@/constants/routes';
@@ -16,14 +17,7 @@ type PostSummaryListItemProps = {
 };
 
 const PostSummaryListItem = ({
-  post: {
-    date,
-    title,
-    description,
-    thumbnail = '/images/blue-gradient.jpeg',
-    tags,
-    _raw: { flattenedPath },
-  },
+  post: { title, slug, date, cover, description, tags },
 }: PostSummaryListItemProps) => {
   const router = useRouter();
 
@@ -36,11 +30,11 @@ const PostSummaryListItem = ({
           'group',
           'flex-col md:flex-row md:items-center',
         )}
-        onClick={() => router.push(ROUTES.POST_OF(flattenedPath))}
+        onClick={() => router.push(ROUTES.POST_OF(slug))}
       >
         <div className="relative aspect-video overflow-hidden rounded-lg md:w-60">
           <Image
-            src={thumbnail}
+            src={cover ?? blue_gradient}
             alt={title}
             className={cn(
               'absolute h-full w-full',

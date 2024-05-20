@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
-import { allPosts } from '@/.contentlayer/generated';
+import { posts as allPosts } from '#velite';
+
 import PostSummaryList from '@/app/_components/post-summary-list';
 import TagBadgeList from '@/app/_components/tag-badge-list';
 import { ROUTES } from '@/constants/routes';
@@ -9,7 +10,7 @@ import {
   findTagByFlattenedTag,
   getPostsByNewestByTag,
   getTagCounterEntriesByHighestCount,
-} from '@/utils/contentlayer';
+} from '@/utils/velite';
 
 type TagPageProps = {
   params: {

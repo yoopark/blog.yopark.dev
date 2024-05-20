@@ -3,11 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { Post } from '@/app/posts/[slug]/_components/post';
 import PostFooter from '@/app/posts/[slug]/_components/post-footer';
-import {
-  getPostBySlug,
-  getPostWithAdjacentPostBySlug,
-} from '@/utils/contentlayer';
 import { getPostMetadata } from '@/utils/get-post-metadata';
+import { getPostBySlug, getPostWithAdjacentPostBySlug } from '@/utils/velite';
 
 type PostPageProps = {
   params: {

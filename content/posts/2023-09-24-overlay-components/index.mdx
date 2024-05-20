@@ -1,8 +1,9 @@
 ---
 title: 오버레이 컴포넌트 분류
+slug: overlay-components
 date: 2023-09-24
 description: Modal, Dialog, Tooltip, Popover... 이름은 들어봤지만 여전히 헷갈린다면?
-thumbnail: /images/posts/overlay-components/thumbnail.png
+cover: thumbnail.png
 tags:
   - UI/UX
 ---
@@ -34,7 +35,7 @@ Ref. [[프로그래밍] 모달과 모달리스는 무엇이고 어떤 차이가 
 
 # 모달과 논모달
 
-![모달과 논모달 분류](/images/posts/overlay-components/modal-nonmodal.png)
+![모달과 논모달 분류](modal-nonmodal.png)
 
 위 이미지는 닐슨 노먼 그룹의 오버레이 컴포넌트 분류다.
 
@@ -43,7 +44,7 @@ Ref. [[프로그래밍] 모달과 모달리스는 무엇이고 어떤 차이가 
 
 # 오버레이 컴포넌트 소개
 
-![오버레이 컴포넌트 분류](/images/posts/overlay-components/overlay-components.png)
+![오버레이 컴포넌트 분류](overlay-components.png)
 
 위 이미지는 Google Material Design의 오버레이 컴포넌트 분류다.
 
@@ -59,43 +60,43 @@ Ref. [[프로그래밍] 모달과 모달리스는 무엇이고 어떤 차이가 
 
 Dialog & Full-Screen Dialog
 
-![Dialog & full-screen dialog example](/images/posts/overlay-components/full-screen-dialog.png)
+![Dialog & full-screen dialog example](full-screen-dialog.png)
 
 Drawer
 
-![Drawer example](/images/posts/overlay-components/drawer-example.png)
+![Drawer example](drawer-example.png)
 
 Sheet
 
-![Sheet example](/images/posts/overlay-components/sheet-example.png)
+![Sheet example](sheet-example.png)
 
 Snackbar
 
-![Snackbar example](/images/posts/overlay-components/snackbar-example.png)
+![Snackbar example](snackbar-example.png)
 
 Extended FAB
 
-![Extended FAB example](/images/posts/overlay-components/extended-fab-example.png)
+![Extended FAB example](extended-fab-example.png)
 
 Tooltip
 
-![Tooltip example](/images/posts/overlay-components/tooltip-example.png)
+![Tooltip example](tooltip-example.png)
 
 Menu
 
-![Menu example](/images/posts/overlay-components/menu-example.png)
+![Menu example](menu-example.png)
 
 Select
 
-![Select example](/images/posts/overlay-components/select-example.png)
+![Select example](select-example.png)
 
 Popover
 
-![Popover example](/images/posts/overlay-components/popover-example.png)
+![Popover example](popover-example.png)
 
 Combobox
 
-![Combobox example](/images/posts/overlay-components/combobox-example.png)
+![Combobox example](combobox-example.png)
 
 ## 특수한 오버레이 컴포넌트 소개
 
@@ -103,41 +104,41 @@ Combobox
 
 Time Picker (Material Design)
 
-![Time picker example](/images/posts/overlay-components/time-picker-example.png)
+![Time picker example](time-picker-example.png)
 
 Command (shadcn/ui)
 
-![Command example](/images/posts/overlay-components/command-example.png)
+![Command example](command-example.png)
 
 Menubar (shadcn/ui)
 
-![Menubar example](/images/posts/overlay-components/menubar-example.png)
+![Menubar example](menubar-example.png)
 
 Navigation Menu (shadcn/ui)
 
-![Navigation menu example](/images/posts/overlay-components/navigation-menu-example.png)
+![Navigation menu example](navigation-menu-example.png)
 
 Speed Dial (MUI)
 
-![Speed dial example](/images/posts/overlay-components/speed-dial-example.png)
+![Speed dial example](speed-dial-example.png)
 
 Hover Card (Radix UI)
 
-![Hover card example](/images/posts/overlay-components/hover-card-example.png)
+![Hover card example](hover-card-example.png)
 
 # Navigation bar, Navigation drawer, Navigation rail
 
 Navigation bar
 
-![Navigation bar example](/images/posts/overlay-components/navigation-bar.png)
+![Navigation bar example](navigation-bar.png)
 
 Navigation drawer
 
-![Navigation drawer example](/images/posts/overlay-components/navigation-drawer.png)
+![Navigation drawer example](navigation-drawer.png)
 
 Navigation rail
 
-![Navigation rail example](/images/posts/overlay-components/navigation-rail.png)
+![Navigation rail example](navigation-rail.png)
 
 # Snackbar vs Toast
 
@@ -149,7 +150,7 @@ Q. 지우는 것이 가능, 유저의 액션을 받을 수 없다가 용어 분�
 
 반례. shadcn/ui의 Toast : 지우기도 가능하고, 유저의 액션도 받을 수 있는데 이름은 Toast다.
 
-![shadcn/ui - Toast](/images/posts/overlay-components/toast-shadcn-ui.png)
+![shadcn/ui - Toast](toast-shadcn-ui.png)
 
 Snackbar와 Toast의 차이에 대해 함께 프론트엔드 스터디를 진행하는 현업 분들께 여쭤봤더니, 위의 구분보다 더 명쾌한 설명을 해주셨다.
 
@@ -166,7 +167,7 @@ Google Material Design의 가이드는 대부분 앱 기준으로 설명해서 �
 | Banner   | 중     | 유저가 무시를 누르거나, 상태가 해결될 때까지 남아있음 (Optional) |
 | Dialog   | 고     | 유저가 결정해야만 사라짐 (Required)                              |
 
-![Dialog do & don't](/images/posts/overlay-components/dialog-do-dont.png)
+![Dialog do & don't](dialog-do-dont.png)
 
 - _정말 지우겠습니까?_ : 중요한 정보
 - _업로드되었습니다_ : 덜 중요한 정보 → **Dialog가 아닌 Snackbar를 사용해야 한다.**

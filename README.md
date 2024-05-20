@@ -7,8 +7,8 @@
 
 ## Tech Stack
 
-- Next.js (App Router)
-- Contentlayer
+- Next.js v14
+- Velite
 - TailwindCSS
 - Framer-Motion
 - Vercel

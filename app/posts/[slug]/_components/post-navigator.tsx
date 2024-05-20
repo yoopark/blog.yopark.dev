@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { type Post } from '@/.contentlayer/generated';
+import { type Post } from '#velite';
+
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/tailwind';
 
@@ -25,7 +26,7 @@ const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
     <div className="mx-2 flex w-full select-none flex-col gap-3 md:flex-row">
       {hasPrevPost && (
         <Link
-          href={ROUTES.POST_OF(prevPost._raw.flattenedPath)}
+          href={ROUTES.POST_OF(prevPost.slug)}
           className={cn(
             'flex flex-1 cursor-pointer select-none flex-col items-start gap-2 rounded-lg bg-gray-50 p-6',
             'transition hover:bg-gray-100 active:scale-[.98] active:bg-gray-200',
@@ -37,7 +38,7 @@ const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
       )}
       {hasNextPost && (
         <Link
-          href={ROUTES.POST_OF(nextPost._raw.flattenedPath)}
+          href={ROUTES.POST_OF(nextPost.slug)}
           className={cn(
             'flex flex-1 cursor-pointer select-none flex-col items-end gap-2 rounded-lg bg-gray-50 p-6',
             'transition hover:bg-gray-100 active:scale-[.98] active:bg-gray-200',

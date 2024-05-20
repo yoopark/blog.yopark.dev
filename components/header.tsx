@@ -1,12 +1,13 @@
 import Link from 'next/link';
 
-import { allPosts } from '@/.contentlayer/generated';
+import { posts } from '#velite';
+
 import Hamburger from '@/assets/images/icons/hamburger.svg';
 import NewTabLink from '@/components/new-tab-link';
 import ReadRandomPost from '@/components/read-random-post';
 import { ROUTES } from '@/constants/routes';
-import { getLatestPost } from '@/utils/contentlayer';
 import { cn } from '@/utils/tailwind';
+import { getLatestPost } from '@/utils/velite';
 
 const Header = () => {
   const latestPost = getLatestPost();
@@ -31,7 +32,7 @@ const Header = () => {
           </Link>
           <nav>
             <ul className="flex gap-1">
-              {allPosts.length !== 0 && (
+              {posts.length !== 0 && (
                 <li>
                   <ReadRandomPost />
                 </li>
@@ -39,7 +40,7 @@ const Header = () => {
               {latestPost !== null && (
                 <li>
                   <Link
-                    href={ROUTES.POST_OF(latestPost._raw.flattenedPath)}
+                    href={ROUTES.POST_OF(latestPost.slug)}
                     className={cn(
                       'select-none rounded-lg px-4 py-3',
                       'transition hover:bg-gray-200/50 active:bg-gray-300/50',

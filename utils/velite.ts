@@ -1,50 +1,49 @@
-import { allPosts } from '@/.contentlayer/generated';
+import { posts } from '#velite';
+
 import { flatten } from '@/utils/string';
 
-const getAllPostsByNewest = () => {
-  return allPosts.sort((a, b) => b.date.localeCompare(a.date));
+const getPostsByNewest = () => {
+  return posts.sort((a, b) => b.date.localeCompare(a.date));
 };
 
 const getLatestPost = () => {
-  const allPosts = getAllPostsByNewest();
+  const posts = getPostsByNewest();
 
-  return allPosts.length > 0 ? allPosts[0] : null;
+  return posts.length > 0 ? posts[0] : null;
 };
 
 const getRandomPost = () => {
-  if (allPosts.length === 0) {
+  if (posts.length === 0) {
     return null;
   }
 
-  return allPosts[Math.floor(Math.random() * allPosts.length)];
+  return posts[Math.floor(Math.random() * posts.length)];
 };
 
 const getPostBySlug = (slug: string) => {
-  return allPosts.find((post) => post._raw.flattenedPath === slug);
+  return posts.find((post) => post.slug === slug);
 };
 
 const getPostWithAdjacentPostBySlug = (slug: string) => {
-  const allPosts = getAllPostsByNewest();
-  const currentIndex = allPosts.findIndex(
-    (post) => post._raw.flattenedPath === slug,
-  );
-  const prevPost = allPosts[currentIndex + 1] || null;
-  const nextPost = allPosts[currentIndex - 1] || null;
-  const post = allPosts[currentIndex];
+  const posts = getPostsByNewest();
+  const currentIndex = posts.findIndex((post) => post.slug === slug);
+  const prevPost = posts[currentIndex + 1] || null;
+  const nextPost = posts[currentIndex - 1] || null;
+  const post = posts[currentIndex];
 
   return { post, prevPost, nextPost };
 };
 
 const getPostsByNewestByTag = (tag: string) => {
-  const allPosts = getAllPostsByNewest();
+  const posts = getPostsByNewest();
 
-  return allPosts.filter((post) => post.tags && post.tags.includes(tag));
+  return posts.filter((post) => post.tags && post.tags.includes(tag));
 };
 
 const getTagCounter = () => {
   const counter: { [key: string]: number } = {};
 
-  allPosts.forEach((post) => {
+  posts.forEach((post) => {
     post.tags?.forEach((tag) => {
       if (!counter[tag]) {
         counter[tag] = 0;
@@ -68,7 +67,7 @@ const getTagCounterEntriesByHighestCount = () => {
 const getAllTags = () => {
   const tags = new Set<string>();
 
-  allPosts.forEach((post) => {
+  posts.forEach((post) => {
     post.tags?.forEach((tag) => {
       tags.add(tag);
     });
@@ -85,11 +84,11 @@ const findTagByFlattenedTag = (flattenedTag: string) => {
 
 export {
   findTagByFlattenedTag,
-  getAllPostsByNewest,
   getAllTags,
   getLatestPost,
   getPostBySlug,
   getPostWithAdjacentPostBySlug,
+  getPostsByNewest,
   getPostsByNewestByTag,
   getRandomPost,
   getTagCounter,

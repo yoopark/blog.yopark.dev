@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { type Post } from '@contentlayer/generated';
+import { type Post } from '#velite';
 import { format } from 'date-fns';
 
 import { badgeVariants } from '@/components/badge';

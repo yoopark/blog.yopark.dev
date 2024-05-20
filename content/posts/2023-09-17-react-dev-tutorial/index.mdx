@@ -1,8 +1,9 @@
 ---
 title: react.dev 튜토리얼 메모
+slug: react-dev-tutorial
 date: 2023-09-17
 description: 리뉴얼된 리액트 공식문서가 그렇게 좋다던데
-thumbnail: /images/posts/react-dev-tutorial-use-effect/intro.png
+cover: intro.png
 tags:
   - React
 ---
@@ -280,7 +281,7 @@ const handleChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
 
 ## UI 표현하기
 
-![import 캡처](/images/posts/react-dev-tutorial/import-capture.png)
+![import 캡처](import-capture.png)
 
 `./Gallery.tsx` 처럼 확장자를 밝혀 import하는 게 정석이다.
 
@@ -551,7 +552,7 @@ export default function Form() {
 
 Immer는 [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 객체 타입으로 구현되었다고 한다. 관심 있으면 찾아보도록 하자.
 
-![JavaScript의 순수한 연산](/images/posts/react-dev-tutorial/pure-functions.png)
+![JavaScript의 순수한 연산](pure-functions.png)
 
 그러나, `[...]`은 얕은 복사이기 때문에 **배열을 복사하더라도 배열 _내부_ 에 기존 항목을 직접 변경해서는 안됩니다**.
 

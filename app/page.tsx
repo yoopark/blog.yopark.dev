@@ -1,4 +1,5 @@
-import { allPosts } from '@/.contentlayer/generated';
+import { posts } from '#velite';
+
 import BannerImage from '@/app/_components/banner-image';
 import IntroductionParagraph from '@/app/_components/introduction-paragrpah';
 import PostSummaryList from '@/app/_components/post-summary-list';
@@ -6,7 +7,7 @@ import TagBadgeList from '@/app/_components/tag-badge-list';
 import forest from '@/assets/images/forest.jpeg';
 import { ROUTES } from '@/constants/routes';
 import type { TagBadgeType } from '@/types/tag-badge-type';
-import { getTagCounterEntriesByHighestCount } from '@/utils/contentlayer';
+import { getTagCounterEntriesByHighestCount } from '@/utils/velite';
 
 const RootPage = () => {
   return (
@@ -17,10 +18,8 @@ const RootPage = () => {
           <IntroductionParagraph />
           <TagBadgeList tagBadges={tagBadgeList} />
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">
-              All Posts ({allPosts.length})
-            </h2>
-            <PostSummaryList posts={allPosts} />
+            <h2 className="text-2xl font-bold">All Posts ({posts.length})</h2>
+            <PostSummaryList posts={posts} />
           </div>
         </div>
       </div>
@@ -33,7 +32,7 @@ const tagCounterEntries = getTagCounterEntriesByHighestCount();
 const tagBadgeList: TagBadgeType[] = [
   {
     name: 'All',
-    count: allPosts.length,
+    count: posts.length,
     href: ROUTES.ROOT,
     isSelected: true,
   },

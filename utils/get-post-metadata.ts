@@ -1,14 +1,9 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
-import { Post } from '@contentlayer/generated';
+import { type Post } from '#velite';
 
 const getPostMetadata = (post: Post): Metadata => {
-  const {
-    title,
-    description,
-    _raw: { flattenedPath },
-    thumbnail = '/images/blue-gradient.jpeg',
-  } = post;
+  const { title, description, cover, slug } = post;
 
   return {
     title,
@@ -17,8 +12,8 @@ const getPostMetadata = (post: Post): Metadata => {
       type: 'article',
       title,
       description,
-      url: `https://blog.yopark.dev/${flattenedPath}`,
-      images: 'https://blog.yopark.dev' + thumbnail,
+      url: `https://blog.yopark.dev/${slug}`,
+      images: 'https://blog.yopark.dev' + cover,
     },
   };
 };
