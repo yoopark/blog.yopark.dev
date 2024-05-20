@@ -11,6 +11,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "update-deps": "ncu -u && bun i",
+    "prune-code": "ts-prune -i '.next|.velite|src/app'",
     "prepare": "is-ci || husky"
   },
   "dependencies": {
@@ -49,6 +50,7 @@
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "latest",
     "tailwindcss": "latest",
+    "ts-prune": "^0.10.3",
     "typescript": "latest",
     "velite": "latest"
   },
