@@ -8,7 +8,7 @@ const ScrollProgressBar = () => {
   return (
     <motion.div
       style={{ scaleX: scrollYProgress }}
-      className="w-full h-1 bg-green-500 fixed top-20 left-0 z-50 origin-left"
+      className="fixed left-0 top-20 z-50 h-1 w-full origin-left bg-green-500"
     />
   );
 };

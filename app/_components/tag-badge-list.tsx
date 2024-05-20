@@ -1,6 +1,5 @@
-import type { TagBadgeType } from '@/types/tag-badge-type';
-
 import TagBadgeListItem from '@/app/_components/tag-badge-list-item';
+import type { TagBadgeType } from '@/types/tag-badge-type';
 
 type TagBadgeListProps = {
   tagBadges: TagBadgeType[];

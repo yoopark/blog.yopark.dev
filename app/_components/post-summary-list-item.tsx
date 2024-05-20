@@ -1,14 +1,15 @@
 'use client';
 
-import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
+import { type Post } from '@contentlayer/generated';
+import { format } from 'date-fns';
 
 import Badge from '@/components/badge';
 import FadeInFromLeft from '@/components/framer-motion/fade-in-from-left';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/tailwind';
-import { Post } from '@contentlayer/generated';
 
 type PostSummaryListItemProps = {
   post: Post;
@@ -30,10 +31,10 @@ const PostSummaryListItem = ({
     <FadeInFromLeft>
       <div
         className={cn(
-          'bg-gray-100/50 p-5 rounded-lg flex gap-6 select-none cursor-pointer',
-          'transition hover:bg-gray-100 active:bg-gray-200 active:scale-[.99]',
+          'flex cursor-pointer select-none gap-6 rounded-lg bg-gray-100/50 p-5',
+          'transition hover:bg-gray-100 active:scale-[.99] active:bg-gray-200',
           'group',
-          'md:flex-row flex-col md:items-center',
+          'flex-col md:flex-row md:items-center',
         )}
         onClick={() => router.push(ROUTES.POST_OF(flattenedPath))}
       >
@@ -42,9 +43,9 @@ const PostSummaryListItem = ({
             src={thumbnail}
             alt={title}
             className={cn(
-              'absolute w-full h-full',
+              'absolute h-full w-full',
               'object-cover',
-              'group-hover:scale-110 transition-transform duration-700',
+              'transition-transform duration-700 group-hover:scale-110',
             )}
             width={1000}
             height={1000}

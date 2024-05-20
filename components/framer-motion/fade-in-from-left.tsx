@@ -1,7 +1,8 @@
 'use client';
 
+import { type PropsWithChildren } from 'react';
+
 import { motion } from 'framer-motion';
-import { PropsWithChildren } from 'react';
 
 const FadeInFromLeft = ({ children }: PropsWithChildren) => {
   return (

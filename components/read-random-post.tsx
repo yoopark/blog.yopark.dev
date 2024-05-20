@@ -24,8 +24,8 @@ const ReadRandomPost = () => {
     <a
       onClick={handleClick}
       className={cn(
-        'px-4 py-3 rounded-lg cursor-pointer select-none',
-        'hover:bg-gray-200/50 transition active:bg-gray-300/50',
+        'cursor-pointer select-none rounded-lg px-4 py-3',
+        'transition hover:bg-gray-200/50 active:bg-gray-300/50',
       )}
     >
       랜덤 글 읽기 🎲

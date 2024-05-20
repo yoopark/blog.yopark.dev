@@ -1,14 +1,13 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { Post } from '@/app/posts/[slug]/_components/post';
+import PostFooter from '@/app/posts/[slug]/_components/post-footer';
 import {
   getPostBySlug,
   getPostWithAdjacentPostBySlug,
 } from '@/utils/contentlayer';
 import { getPostMetadata } from '@/utils/get-post-metadata';
-
-import { Post } from '@/app/posts/[slug]/_components/post';
-import PostFooter from '@/app/posts/[slug]/_components/post-footer';
 
 type PostPageProps = {
   params: {
@@ -54,7 +53,7 @@ const PostPage = ({ params: { slug } }: PostPageProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-20 max-w-[70ch] mx-auto">
+    <div className="mx-auto flex max-w-[70ch] flex-col items-center gap-20">
       <Post post={post} />
       <PostFooter post={post} prevPost={prevPost} nextPost={nextPost} />
     </div>

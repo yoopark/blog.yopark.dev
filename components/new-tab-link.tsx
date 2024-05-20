@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { PropsWithChildren } from 'react';
+
+import { type PropsWithChildren } from 'react';
 
 type NewTabLinkProps = {
   href: string;

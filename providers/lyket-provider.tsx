@@ -1,5 +1,6 @@
+import { type PropsWithChildren } from 'react';
+
 import { Provider } from '@lyket/react';
-import { PropsWithChildren } from 'react';
 
 import { getOrThrow } from '@/utils/env';
 

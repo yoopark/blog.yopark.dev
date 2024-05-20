@@ -213,7 +213,7 @@ export default function App() {
 ### TypeScript useContext 사용 사례
 
 ```tsx
-import { createContext, useContext, useState, useMemo } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 // This is a simpler example, but you can imagine a more complex object here
 type ComplexObject = {
@@ -969,7 +969,7 @@ ref가 변경되어도 렌더링에 영향을 주지 않는다.
 ex. 스톱워치
 
 ```jsx
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Stopwatch() {
   const [startTime, setStartTime] = useState(null);

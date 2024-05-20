@@ -1,4 +1,4 @@
-import { Post } from '@contentlayer/generated';
+import { type Post } from '@contentlayer/generated';
 
 import PostSummaryListItem from '@/app/_components/post-summary-list-item';
 

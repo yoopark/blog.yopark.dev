@@ -1,10 +1,11 @@
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
-import { AnchorHTMLAttributes } from 'react';
 
-import PostHeader from '@/app/posts/[slug]/_components/post-header';
+import { type AnchorHTMLAttributes } from 'react';
 
 import type { Post as PostType } from '@contentlayer/generated';
+
+import PostHeader from '@/app/posts/[slug]/_components/post-header';
 
 type PostProps = {
   post: PostType;
@@ -28,7 +29,7 @@ export const Post = ({
   const MDXContent = useMDXComponent(code);
 
   return (
-    <div className="px-4 flex flex-col gap-20">
+    <div className="flex flex-col gap-20 px-4">
       <div className="flex flex-col gap-10">
         <PostHeader {...props} />
         <Image
@@ -36,7 +37,7 @@ export const Post = ({
           alt={props.title}
           width={2000}
           height={2000}
-          className="rounded-lg object-cover aspect-video w-full"
+          className="aspect-video w-full rounded-lg object-cover"
         />
       </div>
       <article className="prose mx-auto">

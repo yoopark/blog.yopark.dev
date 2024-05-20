@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import ScrollProgressBar from '@/components/scroll-progress-bar';
 import { LyketProvider } from '@/providers/lyket-provider';

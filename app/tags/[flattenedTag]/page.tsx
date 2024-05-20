@@ -1,16 +1,15 @@
 import { redirect } from 'next/navigation';
 
 import { allPosts } from '@/.contentlayer/generated';
+import PostSummaryList from '@/app/_components/post-summary-list';
+import TagBadgeList from '@/app/_components/tag-badge-list';
 import { ROUTES } from '@/constants/routes';
+import type { TagBadgeType } from '@/types/tag-badge-type';
 import {
   findTagByFlattenedTag,
   getPostsByNewestByTag,
   getTagCounterEntriesByHighestCount,
 } from '@/utils/contentlayer';
-import type { TagBadgeType } from '@/types/tag-badge-type';
-
-import PostSummaryList from '@/app/_components/post-summary-list';
-import TagBadgeList from '@/app/_components/tag-badge-list';
 
 type TagPageProps = {
   params: {
@@ -44,11 +43,11 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="max-w-screen-lg px-4 mx-auto w-full">
+      <div className="mx-auto w-full max-w-screen-lg px-4">
         <div className="flex flex-col gap-10">
           <TagBadgeList tagBadges={tagBadgeList} />
           <div className="flex flex-col gap-4">
-            <h2 className="font-bold text-2xl">
+            <h2 className="text-2xl font-bold">
               {originalTag} ({posts.length})
             </h2>
             <PostSummaryList posts={posts} />

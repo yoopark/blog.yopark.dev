@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import Image from 'next/image';
 
 type BannerImageProps = {
   src: string | StaticImport;
@@ -11,7 +10,7 @@ const BannerImage = (props: BannerImageProps) => {
   return (
     <Image
       {...props}
-      className="object-cover w-full h-80 select-none"
+      className="h-80 w-full select-none object-cover"
       placeholder="blur"
     />
   );

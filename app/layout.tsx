@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { PropsWithChildren } from 'react';
+
+import { type PropsWithChildren } from 'react';
 
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+
 import './globals.css';
 
 const wantedSans = localFont({
@@ -28,7 +30,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="ko-KR">
       <body className={wantedSans.className}>
         <Header />
-        <main className="mt-20 mb-20">{children}</main>
+        <main className="mb-20 mt-20">{children}</main>
         <Footer />
       </body>
     </html>

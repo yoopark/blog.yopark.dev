@@ -11,10 +11,10 @@ const SocialGroup = ({ githubUrl, linkedInUrl }: SocialGroupProps) => {
   return (
     <div className="flex gap-3">
       <NewTabLink href={githubUrl}>
-        <GithubLogo className="w-5 h-5 text-gray-600 transition hover:text-[#171515] hover:scale-125" />
+        <GithubLogo className="h-5 w-5 text-gray-600 transition hover:scale-125 hover:text-[#171515]" />
       </NewTabLink>
       <NewTabLink href={linkedInUrl}>
-        <LinkedInLogo className="w-5 h-5 text-gray-600 transition hover:text-[#0077b5] hover:scale-125" />
+        <LinkedInLogo className="h-5 w-5 text-gray-600 transition hover:scale-125 hover:text-[#0077b5]" />
       </NewTabLink>
     </div>
   );

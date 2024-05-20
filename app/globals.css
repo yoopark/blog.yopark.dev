@@ -19,7 +19,7 @@
 @layer components {
   /* tailwind prose */
   .prose .anchor {
-    @apply invisible absolute no-underline ml-2 cursor-pointer;
+    @apply invisible absolute ml-2 cursor-pointer no-underline;
   }
 
   .prose .anchor:after {
@@ -46,7 +46,7 @@
   }
 
   .prose :not(pre) > code {
-    @apply before:content-none after:content-none font-normal bg-gray-50 py-0.5 px-1 rounded-md;
+    @apply rounded-md bg-gray-50 px-1 py-0.5 font-normal before:content-none after:content-none;
   }
 
   .prose a {

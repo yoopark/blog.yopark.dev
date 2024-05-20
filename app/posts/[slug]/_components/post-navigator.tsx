@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Post } from '@/.contentlayer/generated';
+import { type Post } from '@/.contentlayer/generated';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/tailwind';
 
@@ -22,13 +22,13 @@ const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full gap-3 mx-2 md:flex-row select-none">
+    <div className="mx-2 flex w-full select-none flex-col gap-3 md:flex-row">
       {hasPrevPost && (
         <Link
           href={ROUTES.POST_OF(prevPost._raw.flattenedPath)}
           className={cn(
-            'flex flex-col items-start flex-1 gap-2 p-6 rounded-lg cursor-pointer bg-gray-50 select-none',
-            'transition hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]',
+            'flex flex-1 cursor-pointer select-none flex-col items-start gap-2 rounded-lg bg-gray-50 p-6',
+            'transition hover:bg-gray-100 active:scale-[.98] active:bg-gray-200',
           )}
         >
           <p>바로 전에 쓴 글</p>
@@ -39,8 +39,8 @@ const PostNavigator = ({ prevPost, nextPost }: PostNavigatorProps) => {
         <Link
           href={ROUTES.POST_OF(nextPost._raw.flattenedPath)}
           className={cn(
-            'flex flex-col items-end flex-1 gap-2 p-6 rounded-lg cursor-pointer bg-gray-50 select-none',
-            'transition hover:bg-gray-100 active:bg-gray-200 active:scale-[.98]',
+            'flex flex-1 cursor-pointer select-none flex-col items-end gap-2 rounded-lg bg-gray-50 p-6',
+            'transition hover:bg-gray-100 active:scale-[.98] active:bg-gray-200',
           )}
         >
           <p>그 다음에 쓴 글</p>

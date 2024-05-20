@@ -8,11 +8,11 @@ const year = new Date().getFullYear();
 const Footer = () => {
   return (
     <footer className="bg-gray-100">
-      <div className="max-w-screen-lg px-8 py-12 m-auto flex flex-col md:flex-row gap-10">
+      <div className="m-auto flex max-w-screen-lg flex-col gap-10 px-8 py-12 md:flex-row">
         <Image
           width={200}
           height={200}
-          className="w-20 h-20 select-none"
+          className="h-20 w-20 select-none"
           src={yoopaark_circle}
           alt="yoopaark"
         />
