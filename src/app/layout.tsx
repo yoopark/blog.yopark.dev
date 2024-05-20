@@ -9,7 +9,7 @@ import Header from '@/components/header';
 import './globals.css';
 
 const wantedSans = localFont({
-  src: '../public/fonts/WantedSansVariable.woff2',
+  src: '../../public/fonts/WantedSansVariable.woff2',
 });
 
 const metadata: Metadata = {
