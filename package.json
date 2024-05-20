@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "prepare": "husky"
+    "update-deps": "ncu -u && bun i",
+    "prepare": "is-ci || husky"
   },
   "dependencies": {
     "@giscus/react": "latest",
@@ -42,6 +43,7 @@
     "eslint-config-next": "latest",
     "eslint-plugin-no-relative-import-paths": "latest",
     "husky": "latest",
+    "is-ci": "^3.0.1",
     "lint-staged": "latest",
     "postcss": "latest",
     "prettier": "latest",
