@@ -8,11 +8,11 @@
   }
 
   ::selection {
-    @apply bg-gray-100;
+    @apply bg-yellow-300;
   }
 
   ::-moz-selection {
-    @apply bg-gray-100;
+    @apply bg-yellow-300;
   }
 }
 
