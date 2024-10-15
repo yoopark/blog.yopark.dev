@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import { LuckyDraw } from '@/app/_components/lucky-draw';
 import bulbasaur from '@/assets/images/bulbasaur-making-butterfly.gif';
 
 const Hero = () => {
@@ -15,6 +16,7 @@ const Hero = () => {
         <p>개발과 관련된 내용이라면 최대한 이곳에 연결시킵니다.</p>
         <p className="line-through">위키 겸 블로그 겸 메모장</p>
       </div>
+      <LuckyDraw />
     </section>
   );
 };
