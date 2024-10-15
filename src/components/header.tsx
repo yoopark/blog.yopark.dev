@@ -13,7 +13,7 @@ const Header = () => {
   const latestPost = getLatestPost();
 
   return (
-    <header className="fixed top-0 z-10 flex h-20 w-full items-center bg-white/50 backdrop-blur-md">
+    <header className="fixed top-0 z-10 flex h-16 w-full items-center bg-white/50 backdrop-blur-md">
       <div className="mx-auto w-full max-w-screen-lg px-4">
         <div className="flex items-center justify-between md:hidden">
           <div className="cursor-pointer rounded-lg p-2 transition active:scale-95 active:bg-gray-200/50">
@@ -26,9 +26,9 @@ const Header = () => {
         <div className="hidden w-full items-center justify-between md:flex">
           <Link
             href={ROUTES.ROOT}
-            className="rounded-lg px-4 py-2 transition hover:bg-green-100/50 active:scale-[.98] active:bg-green-200/50"
+            className="rounded-md px-3 py-2 transition hover:bg-green-100/50 active:bg-green-200/50"
           >
-            <h1 className="select-none text-2xl font-bold">🌱 Yopark Devlog</h1>
+            <h1 className="select-none font-semibold">🌱 티브 개발로그</h1>
           </Link>
           <nav>
             <ul className="flex gap-1">
@@ -42,7 +42,7 @@ const Header = () => {
                   <Link
                     href={ROUTES.POST_OF(latestPost.slug)}
                     className={cn(
-                      'select-none rounded-lg px-4 py-3',
+                      'select-none rounded-md px-3 py-2 text-sm text-gray-800',
                       'transition hover:bg-gray-200/50 active:bg-gray-300/50',
                     )}
                   >
@@ -54,11 +54,11 @@ const Header = () => {
                 <NewTabLink
                   href="https://yopark.dev"
                   className={cn(
-                    'select-none rounded-lg px-4 py-3',
+                    'select-none rounded-md px-3 py-2 text-sm text-gray-800',
                     'transition hover:bg-gray-200/50 active:bg-gray-300/50',
                   )}
                 >
-                  About Me ✌️
+                  자기소개 ✌️
                 </NewTabLink>
               </li>
             </ul>
