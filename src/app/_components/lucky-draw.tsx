@@ -44,7 +44,7 @@ const LuckyDraw = () => {
     <div className="flex flex-col items-center text-xs text-gray-500">
       <p>
         네잎클로버<span className="text-[10px]">(1/{EMOJI_LIST.length})</span>를
-        뽑아보세요 ⬇
+        뽑아보세요 ↓
       </p>
       <div className="flex items-center gap-2">
         <button
@@ -61,7 +61,7 @@ const LuckyDraw = () => {
               isLucky ? 'font-semibold text-green-600' : 'text-gray-500',
             )}
           >
-            {count}회만에 뽑을 확률 - {(probability * 100).toFixed(2)}%
+            {count}번 이내로 뽑을 확률 - {(probability * 100).toFixed(2)}%
           </p>
         </button>
       </div>
