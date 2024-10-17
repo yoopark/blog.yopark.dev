@@ -1,14 +1,14 @@
 import Image from 'next/image';
 
-import bulbasaur from '@/assets/images/bulbasaur-making-butterfly.gif';
+import me from '@/assets/images/me.png';
 
 const Hero = () => {
   return (
     <section className="flex flex-col items-center gap-6 py-12">
       <Image
-        src={bulbasaur}
-        alt="Bulbasaur"
-        className="h-60 w-60 select-none rounded-full border-2 border-white object-cover shadow-xl"
+        src={me}
+        alt="Me"
+        className="h-60 w-60 select-none rounded-full object-cover"
       />
       <div className="flex flex-col items-center gap-1 text-sm">
         <p>안녕하세요, 티브입니다. ✨</p>
