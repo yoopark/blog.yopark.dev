@@ -19,14 +19,14 @@ const Header = () => {
           <div className="cursor-pointer rounded-lg p-2 transition active:scale-95 active:bg-gray-200/50">
             <Hamburger className="h-6 w-6 rounded-lg text-gray-500 active:scale-95 active:bg-gray-100" />
           </div>
-          <h1 className="rounded-lg px-4 py-2 text-2xl font-bold transition hover:bg-green-100/50 active:scale-95 active:bg-green-200/50">
+          <h1 className="rounded-lg px-4 py-2 text-2xl font-bold transition hover:bg-amulet-100/50 active:scale-95 active:bg-amulet-200/50">
             <Link href={ROUTES.ROOT}>🌱</Link>
           </h1>
         </div>
         <div className="hidden w-full items-center justify-between md:flex">
           <Link
             href={ROUTES.ROOT}
-            className="rounded-md px-3 py-2 transition hover:bg-green-100/50 active:bg-green-200/50"
+            className="rounded-md px-3 py-2 transition hover:bg-amulet-100/50 active:bg-amulet-200/50"
           >
             <h1 className="select-none font-semibold">🌱 티브 개발로그</h1>
           </Link>

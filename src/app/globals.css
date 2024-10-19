@@ -8,11 +8,11 @@
   }
 
   ::selection {
-    @apply bg-green-100;
+    @apply bg-amulet-100;
   }
 
   ::-moz-selection {
-    @apply bg-green-100;
+    @apply bg-amulet-100;
   }
 }
 
@@ -33,7 +33,7 @@
   }
 
   .prose .anchor:after:hover {
-    @apply text-green-500;
+    @apply text-amulet-500;
   }
 
   .prose h1,
@@ -46,15 +46,15 @@
   }
 
   .prose :not(pre) > code {
-    @apply rounded-md bg-gray-50 px-1 py-0.5 font-normal before:content-none after:content-none;
+    @apply bg-gray-50 rounded-md px-1 py-0.5 font-normal before:content-none after:content-none;
   }
 
   .prose a {
-    @apply font-normal text-green-600 underline transition hover:text-green-700;
+    @apply text-amulet-600 hover:text-amulet-700 font-normal underline transition;
   }
 
   .prose blockquote {
-    @apply font-normal not-italic text-gray-600;
+    @apply text-gray-600 font-normal not-italic;
   }
 
   .prose blockquote p {

@@ -27,7 +27,7 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
 
   const tagBadgeList: TagBadgeType[] = [
     {
-      name: 'All',
+      name: '전체',
       count: allPosts.length,
       href: ROUTES.ROOT,
       isSelected: false,
@@ -45,7 +45,7 @@ const TagPage = ({ params: { flattenedTag } }: TagPageProps) => {
   return (
     <div className="flex flex-col gap-10">
       <div className="mx-auto w-full max-w-screen-lg px-4">
-        <div className="flex flex-col gap-10">
+        <div className="flex gap-10">
           <TagBadgeList tagBadges={tagBadgeList} />
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">

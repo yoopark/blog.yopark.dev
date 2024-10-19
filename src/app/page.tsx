@@ -12,10 +12,10 @@ const RootPage = () => {
     <div className="flex flex-col gap-10">
       <Hero />
       <div className="mx-auto w-full max-w-screen-lg px-4">
-        <div className="flex flex-col gap-10">
+        <div className="flex gap-10">
           <TagBadgeList tagBadges={tagBadgeList} />
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">All Posts ({posts.length})</h2>
+            <h2 className="text-2xl font-bold">전체 글 ({posts.length})</h2>
             <PostSummaryList posts={posts} />
           </div>
         </div>
@@ -28,7 +28,7 @@ const tagCounterEntries = getTagCounterEntriesByHighestCount();
 
 const tagBadgeList: TagBadgeType[] = [
   {
-    name: 'All',
+    name: '전체',
     count: posts.length,
     href: ROUTES.ROOT,
     isSelected: true,

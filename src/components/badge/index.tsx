@@ -15,10 +15,10 @@ const badgeVariants = cva('select-none', {
       darker: 'bg-gray-200 text-gray-600',
     },
     isClickable: {
-      true: 'transition cursor-pointer hover:bg-green-500 hover:text-white hover:shadow-md active:bg-green-600 active:scale-[.98]',
+      true: 'transition cursor-pointer hover:bg-amulet-500 hover:text-white hover:shadow-md active:bg-amulet-600 active:scale-[.98]',
     },
     isSelected: {
-      true: 'bg-green-500 text-white',
+      true: 'bg-amulet-600 text-white',
     },
   },
   defaultVariants: {

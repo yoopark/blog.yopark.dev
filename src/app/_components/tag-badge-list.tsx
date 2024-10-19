@@ -7,11 +7,11 @@ type TagBadgeListProps = {
 
 const TagBadgeList = ({ tagBadges }: TagBadgeListProps) => {
   return (
-    <div className="flex flex-wrap gap-2">
+    <aside className="sticky left-0 top-20 flex flex-col gap-2 self-start">
       {tagBadges.map((tagBadge) => (
         <TagBadgeListItem key={tagBadge.name} tagBadge={tagBadge} />
       ))}
-    </div>
+    </aside>
   );
 };
 
